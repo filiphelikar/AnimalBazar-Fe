@@ -1,17 +1,6 @@
 import { useFetch } from "../../utils/useFetch";
 import InzeratyTable from "../../components/InzeratTable/InzeratyTable";
-
-export interface Inzerat {
-  id: number;
-  nazev: string;
-  prodejce: string;
-  telefon: string;
-  email: string;
-  popis: string;
-  cena: number | string;
-  druh: string;
-  images: string[];
-}
+import { Inzerat } from "../../assets/interfaces";
 
 const Dogs = () => {
   const { data, status } = useFetch<Inzerat[]>(

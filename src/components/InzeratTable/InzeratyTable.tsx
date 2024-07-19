@@ -1,4 +1,4 @@
-import { Inzerat } from "../../pages/dogs/Dogs";
+import { Inzerat } from "../../assets/interfaces";
 import OneInzerat from "../OneInzerat/OneInzerat";
 
 const InzeratTable = (inzeraty: any) => {
