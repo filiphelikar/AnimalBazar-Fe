@@ -1,5 +1,6 @@
 import { Inzerat } from "../../assets/interfaces";
 import OneInzerat from "../OneInzerat/OneInzerat";
+import style from "./InzeratyTable.module.css";
 
 interface Data {
   data: Inzerat[];
@@ -7,7 +8,7 @@ interface Data {
 
 const InzeratTable = (inzeraty: Data) => {
   return (
-    <div>
+    <div className={style[""]}>
       {inzeraty.data.map((inzerat: Inzerat) => {
         return (
           <div key={inzerat.id}>
