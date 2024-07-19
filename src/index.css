@@ -15,6 +15,8 @@
   --nav-bg-color: #4d4d4d;
   --nav-a-container: #292929;
   --nav-text-color: #dddddd;
+  --element-bg-color: rgb(70, 70, 70);
+  --main-text-color: rgb(255, 255, 255);
 }
 
 * {

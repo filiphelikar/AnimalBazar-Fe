@@ -1,4 +1,5 @@
 import { Inzerat } from "../../pages/dogs/Dogs";
+import style from "./OneInzerat.module.css";
 
 const OneInzerat = ({
   id,
@@ -12,10 +13,13 @@ const OneInzerat = ({
   images,
 }: Inzerat) => {
   return (
-    <div>
+    <div className={style["main"]}>
       <h2>{nazev}</h2>
-      <img src={images[0]} alt={nazev} />
-      <p>{cena}</p>
+      <img width="200px" src={images[0]} alt={nazev} />
+      <p>{popis}</p>
+      <p className={style["price"]}>
+        <b>{cena} Kč</b>
+      </p>
     </div>
   );
 };

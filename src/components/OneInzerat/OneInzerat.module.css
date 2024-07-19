@@ -1,0 +1,35 @@
+.main {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  min-height: 280px;
+  padding: 10px 30px;
+  border-radius: 10px;
+  background-color: var(--element-bg-color);
+  margin: 20px 0;
+}
+
+.main h2 {
+  font-size: 20px;
+  margin: 0 auto;
+  color: var(--main-text-color);
+}
+
+.main img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+  float: left;
+}
+
+.main p {
+  margin-top: 20px;
+  font-size: 17px;
+  color: var(--main-text-color);
+}
+
+.price {
+  position: absolute;
+  bottom: 10px;
+}
