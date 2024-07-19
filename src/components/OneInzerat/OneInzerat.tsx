@@ -18,7 +18,7 @@ const OneInzerat = ({
       <img width="200px" src={images[0]} alt={nazev} />
       <p>{popis}</p>
       <p className={style["price"]}>
-        <b>{cena} Kč</b>
+        <b>{cena == "Za odvoz" ? cena : cena + " Kč"}</b>
       </p>
     </div>
   );
