@@ -1,10 +1,14 @@
 import { Inzerat } from "../../assets/interfaces";
 import OneInzerat from "../OneInzerat/OneInzerat";
 
-const InzeratTable = (inzeraty: any) => {
+interface Data {
+  data: Inzerat[];
+}
+
+const InzeratTable = (inzeraty: Data) => {
   return (
     <div>
-      {inzeraty.data.map((inzerat: any) => {
+      {inzeraty.data.map((inzerat: Inzerat) => {
         return (
           <div key={inzerat.id}>
             <OneInzerat {...inzerat} />
