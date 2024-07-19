@@ -7,11 +7,13 @@ const App = () => {
   return (
     <Router>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<div>uvod</div>} />
-        <Route path="/kocky" element={<Cats />} />
-        <Route path="/pes" element={<div>pes</div>} />
-      </Routes>
+      <div className={style["main"]}>
+        <Routes>
+          <Route path="/" element={<div>uvod</div>} />
+          <Route path="/kocky" element={<Cats />} />
+          <Route path="/pes" element={<div>pes</div>} />
+        </Routes>
+      </div>
       {/* footer */}
     </Router>
   );
