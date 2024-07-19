@@ -1,6 +1,6 @@
 import style from "./App.module.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import Cats from "./pages/cats/Cats";
 import Dogs from "./pages/dogs/Dogs";
 import Home from "./pages/home/Home";
