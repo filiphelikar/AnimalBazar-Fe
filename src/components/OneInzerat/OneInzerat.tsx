@@ -10,8 +10,10 @@ const OneInzerat = ({ nazev, popis, cena, images, lokalita, psc }: Inzerat) => {
       <p className={style["price"]}>
         <b>{cena == "Za odvoz" ? cena : cena + " Kč"}</b>
       </p>
-      <p>{lokalita}</p>
-      <p>{psc}</p>
+      <div className={style["location"]}>
+        <span>{lokalita}</span> <br />
+        <span>{psc}</span>
+      </div>
     </div>
   );
 };

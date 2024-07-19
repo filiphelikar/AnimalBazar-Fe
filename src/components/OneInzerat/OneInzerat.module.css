@@ -33,3 +33,10 @@
   position: absolute;
   bottom: 10px;
 }
+
+.location {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  color: var(--main-text-color);
+}
