@@ -1,6 +1,7 @@
 import { useFetch } from "../../utils/useFetch";
+import InzeratyTable from "../../components/InzeratTable/InzeratyTable";
 
-interface Inzerat {
+export interface Inzerat {
   id: number;
   nazev: string;
   prodejce: string;
@@ -17,11 +18,15 @@ const Dogs = () => {
     "http://localhost:3000/api/inzeraty"
   );
 
-  if (data && status === "success") {
-    console.log(data[0]);
-  }
-
-  return <div>Pes</div>;
+  return (
+    <>
+      {data && status === "success" ? (
+        <InzeratyTable data={data} />
+      ) : (
+        <div>error {/*TODO error component*/}</div>
+      )}
+    </>
+  );
 };
 
 export default Dogs;
