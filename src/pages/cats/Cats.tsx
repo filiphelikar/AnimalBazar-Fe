@@ -15,7 +15,7 @@ export interface Inzerat {
 
 const Cats = () => {
   const { data, status } = useFetch<Inzerat[]>(
-    "http://localhost:3000/api/inzeraty"
+    "http://localhost:3000/api/inzeraty/kocka"
   );
 
   return (
