@@ -1,17 +1,7 @@
 import { Inzerat } from "../../assets/interfaces";
 import style from "./OneInzerat.module.css";
 
-const OneInzerat = ({
-  id,
-  nazev,
-  prodejce,
-  telefon,
-  email,
-  popis,
-  cena,
-  druh,
-  images,
-}: Inzerat) => {
+const OneInzerat = ({ nazev, popis, cena, images, lokalita, psc }: Inzerat) => {
   return (
     <div className={style["main"]}>
       <h2>{nazev}</h2>
@@ -20,6 +10,8 @@ const OneInzerat = ({
       <p className={style["price"]}>
         <b>{cena == "Za odvoz" ? cena : cena + " Kč"}</b>
       </p>
+      <p>{lokalita}</p>
+      <p>{psc}</p>
     </div>
   );
 };

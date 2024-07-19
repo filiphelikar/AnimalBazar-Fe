@@ -8,4 +8,6 @@ export interface Inzerat {
   cena: number | "Za odvoz";
   druh: "Kočka" | "Pes";
   images: string[];
+  lokalita: string;
+  psc: number;
 }
