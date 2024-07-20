@@ -10,7 +10,7 @@ const Dogs = () => {
   return (
     <>
       {data && status === "success" ? (
-        <InzeratyTable data={data} />
+        <InzeratyTable inzeraty={data} />
       ) : (
         <div>error {/*TODO error component*/}</div>
       )}
