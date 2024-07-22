@@ -1,12 +1,12 @@
 .main {
   position: relative;
-  width: fit-content;
+  width: 60vw;
   height: fit-content;
   min-height: 90vh;
   padding: 10px 20px;
   border-radius: 10px;
   background-color: var(--element-bg-color);
-  margin: 20px 0;
+  margin: 20px auto;
 }
 
 .main h2 {
@@ -15,18 +15,101 @@
   color: var(--main-text-color);
 }
 
-.main img {
+.background-full-img {
+  width: 100vw;
+  height: 100%;
+  overflow: hidden;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.822);
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  cursor: default;
+}
+
+.cross {
+  background: none;
+  border: none;
+  top: 40px;
+  right: 40px;
+  font-size: 30px;
+  position: fixed;
+  z-index: 1002;
+  cursor: pointer;
+}
+
+.full-img .button-prev {
+  top: 50%;
+  right: 80%;
+  position: fixed;
+  z-index: 1002;
+  font-size: 50px;
+  cursor: pointer;
+}
+
+.full-img .button-next {
+  top: 50%;
+  left: 80%;
+  position: fixed;
+  z-index: 1002;
+  font-size: 50px;
+  cursor: pointer;
+}
+
+.full-img img {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 95vh;
+  width: auto;
+  position: fixed;
+  z-index: 1001;
+}
+
+.img-container img {
   height: 400px;
   width: 500px;
   object-fit: cover;
   border-radius: 5px;
 }
 
+.img-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.button-prev,
+.button-next {
+  background: none;
+  border: none;
+  font-size: 35px;
+  cursor: pointer;
+}
+
+.button-activ {
+  color: var(--activ-button-color);
+}
+
+.button {
+  color: var(--main-text-color);
+}
+
+.button,
+.button-activ {
+  background: none;
+  border: none;
+  margin: 0 5px;
+  cursor: pointer;
+  font-size: 11px;
+}
+
 .popis {
-  margin: 20px auto;
+  margin: 40px auto;
   font-size: 17px;
-  min-height: 30vh;
-  width: 65%;
+  min-height: 24vh;
+  width: 80%;
+  text-align: left;
   color: var(--main-text-color);
 }
 
