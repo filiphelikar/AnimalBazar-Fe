@@ -1,0 +1,64 @@
+.main {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  min-height: 90vh;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: var(--element-bg-color);
+  margin: 20px 0;
+}
+
+.main h2 {
+  font-size: 20px;
+  margin: 0 auto;
+  color: var(--main-text-color);
+}
+
+.main img {
+  height: 400px;
+  width: 500px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.popis {
+  margin: 20px auto;
+  font-size: 17px;
+  min-height: 30vh;
+  width: 65%;
+  color: var(--main-text-color);
+}
+
+.bottom-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: fit-content;
+  width: 100%;
+  position: relative;
+}
+
+.contact {
+  text-decoration: none;
+  color: var(--main-text-color);
+  width: fit-content;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.contact a {
+  text-decoration: none;
+  color: var(--main-text-color);
+}
+
+.price {
+  color: var(--main-text-color);
+}
+
+.location {
+  grid-column: 3;
+  margin: 0 auto;
+  height: fit-content;
+  width: fit-content;
+  color: var(--main-text-color);
+}
