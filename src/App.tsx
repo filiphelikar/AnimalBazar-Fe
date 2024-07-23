@@ -1,26 +1,41 @@
 import style from "./App.module.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
-import Cats from "./pages/cats/Cats";
-import Dogs from "./pages/dogs/Dogs";
 import Home from "./pages/home/Home";
 import OneInzeratById from "./pages/OneInzeratById/OneInzeratById";
+import { useFetch } from "./utils/useFetch";
+import PageByDruh from "./pages/PageByDruh/PageByDruh";
+import LoadingError from "./components/LoadingError/LoadingError";
 
 const App = () => {
+  const { data, status } = useFetch<string[]>(
+    "http://localhost:3000/api/druhy"
+  );
+
   return (
     <Router>
-      <Navbar />
-      <div className={style["main"]}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/:id" element={<OneInzeratById />} />
-          <Route path="/kocky" element={<Cats />} />
-          <Route path="/kocky/:id" element={<OneInzeratById />} />
-          <Route path="/pes" element={<Dogs />} />
-          <Route path="/pes/:id" element={<OneInzeratById />} />
-        </Routes>
-      </div>
-      {/* footer */}
+      {data && status === "success" ? (
+        <>
+          <Navbar druhy={data} />
+          <div className={style["main"]}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/:id" element={<OneInzeratById />} />
+              {data.map((druh: string) => {
+                return (
+                  <Route
+                    path={`/${druh}`}
+                    element={<PageByDruh druh={druh} />}
+                  />
+                );
+              })}
+            </Routes>
+          </div>
+          {/* footer */}
+        </>
+      ) : (
+        <LoadingError status={status} />
+      )}
     </Router>
   );
 };

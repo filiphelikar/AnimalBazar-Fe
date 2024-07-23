@@ -3,9 +3,13 @@ import InzeratyTable from "../../components/InzeratTable/InzeratyTable";
 import { Inzerat } from "../../assets/interfaces";
 import LoadingError from "../../components/LoadingError/LoadingError";
 
-const Cats = () => {
+interface Props {
+  druh: string;
+}
+
+const PageByDruh = ({ druh }: Props) => {
   const { data, status } = useFetch<Inzerat[]>(
-    "http://localhost:3000/api/inzeraty/kocka"
+    `http://localhost:3000/api/inzeraty/${druh}`
   );
 
   return (
@@ -19,4 +23,4 @@ const Cats = () => {
   );
 };
 
-export default Cats;
+export default PageByDruh;
