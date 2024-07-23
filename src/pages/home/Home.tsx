@@ -1,6 +1,7 @@
 import { useFetch } from "../../utils/useFetch";
 import InzeratyTable from "../../components/InzeratTable/InzeratyTable";
 import { Inzerat } from "../../assets/interfaces";
+import LoadingError from "../../components/LoadingError/LoadingError";
 
 const Home = () => {
   const { data, status } = useFetch<Inzerat[]>(
@@ -12,7 +13,7 @@ const Home = () => {
       {data && status === "success" ? (
         <InzeratyTable inzeraty={data} />
       ) : (
-        <div>error {/*TODO error component*/}</div>
+        <LoadingError status={status} />
       )}
     </>
   );
