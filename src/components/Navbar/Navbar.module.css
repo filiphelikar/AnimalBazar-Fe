@@ -15,9 +15,18 @@
   border: 1px solid rgb(0, 0, 0);
   border-radius: 20px;
   padding: 1px 10px;
+  text-decoration: none;
+  color: var(--nav-text-color);
 }
 
-.link-container a {
+.logo {
+  text-decoration: none;
+  color: var(--nav-text-color);
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+.link-container p {
   text-decoration: none;
   color: var(--nav-text-color);
 }

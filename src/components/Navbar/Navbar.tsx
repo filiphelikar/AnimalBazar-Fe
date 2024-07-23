@@ -1,19 +1,19 @@
 import style from "./Navbar.module.css";
 import { Link } from "react-router-dom";
+import { PiCatDuotone } from "react-icons/pi";
 
 const Navbar = () => {
   return (
     <nav className={style["nav"]}>
-      {/* TODO logo to="/" */}
-      <div className={style["link-container"]}>
-        <Link to="/">Uvod</Link>
-      </div>
-      <div className={style["link-container"]}>
-        <Link to="/kocky">Kocky</Link>
-      </div>
-      <div className={style["link-container"]}>
-        <Link to="/pes">Pes</Link>
-      </div>
+      <Link className={style["logo"]} to="/">
+        <PiCatDuotone />
+      </Link>
+      <Link to="/kocky" className={style["link-container"]}>
+        <p>Kocky</p>
+      </Link>
+      <Link to="/pes" className={style["link-container"]}>
+        <p>Pes</p>
+      </Link>
     </nav>
   );
 };
