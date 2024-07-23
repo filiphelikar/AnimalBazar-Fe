@@ -1,15 +1,6 @@
-import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { ImCross } from "react-icons/im";
 import style from "./FullPictures.module.css";
-
-/* images={images}
-        img={img}
-        setImg={setImg}
-        nextPrevImg={nextPrevImg}
-        isHide={isHide}
-        setIsHide={setIsHide} */
-
 interface Props {
   images: string[];
   img: number;
