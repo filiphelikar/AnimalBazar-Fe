@@ -10,7 +10,7 @@ const LoadingError = ({ status }: Props) => {
       {status === "loading" ? (
         <p className={style["loading"]}>Loading...</p>
       ) : status === "error" ? (
-        <p className={style["error"]}>somthing went wrong</p>
+        <p className={style["error"]}>somthing went wrong :{"("}</p>
       ) : (
         ""
       )}
