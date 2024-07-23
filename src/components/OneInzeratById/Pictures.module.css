@@ -1,0 +1,37 @@
+.img-container img {
+  height: 400px;
+  width: 500px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.img-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.button-prev,
+.button-next {
+  background: none;
+  border: none;
+  font-size: 35px;
+  cursor: pointer;
+}
+
+.button-activ {
+  color: var(--activ-button-color);
+}
+
+.button {
+  color: var(--main-text-color);
+}
+
+.button,
+.button-activ {
+  background: none;
+  border: none;
+  margin: 0 5px;
+  cursor: pointer;
+  font-size: 11px;
+}

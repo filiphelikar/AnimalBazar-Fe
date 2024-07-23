@@ -1,0 +1,58 @@
+.background-full-img {
+  width: 100vw;
+  height: 100%;
+  overflow: hidden;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.822);
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  cursor: default;
+}
+
+.cross {
+  background: none;
+  border: none;
+  top: 40px;
+  right: 40px;
+  font-size: 30px;
+  position: fixed;
+  z-index: 1002;
+  cursor: pointer;
+}
+
+.full-img .button-prev {
+  top: 50%;
+  right: 80%;
+  position: fixed;
+  z-index: 1002;
+  font-size: 50px;
+  cursor: pointer;
+}
+
+.full-img .button-next {
+  top: 50%;
+  left: 80%;
+  position: fixed;
+  z-index: 1002;
+  font-size: 50px;
+  cursor: pointer;
+}
+
+.full-img img {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 95vh;
+  width: auto;
+  position: fixed;
+  z-index: 1001;
+}
+
+.button-prev,
+.button-next {
+  background: none;
+  border: none;
+  font-size: 35px;
+  cursor: pointer;
+}
