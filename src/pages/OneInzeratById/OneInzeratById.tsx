@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useFetch } from "../../utils/useFetch";
 import { Inzerat } from "../../assets/interfaces";
 import OneInzerat from "../../components/OneInzeratById/OneInzerat";
+import LoadingError from "../../components/LoadingError/LoadingError";
 
 const OneInzeratById = () => {
   const { id } = useParams();
@@ -15,7 +16,7 @@ const OneInzeratById = () => {
       {data && status === "success" ? (
         <OneInzerat {...data} />
       ) : (
-        <div>error {/*TODO error component*/}</div>
+        <LoadingError status={status} />
       )}
     </>
   );

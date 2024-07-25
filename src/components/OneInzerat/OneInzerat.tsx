@@ -12,7 +12,7 @@ const OneInzerat = ({
   id,
 }: Inzerat) => {
   return (
-    <Link to={`/${id}`} className={style["link"]}>
+    <Link to={`/inzerat/${id}`} className={style["link"]}>
       <div className={style["main"]}>
         <h2>{nazev}</h2>
         <img width="200px" src={images[0]} alt={nazev} />

@@ -20,15 +20,8 @@ const App = () => {
           <div className={style["main"]}>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/:id" element={<OneInzeratById />} />
-              {data.map((druh: string) => {
-                return (
-                  <Route
-                    path={`/${druh}`}
-                    element={<PageByDruh druh={druh} />}
-                  />
-                );
-              })}
+              <Route path="/inzerat/:id" element={<OneInzeratById />} />
+              <Route path={`inzeraty/:id`} element={<PageByDruh />} />
             </Routes>
           </div>
           {/* footer */}

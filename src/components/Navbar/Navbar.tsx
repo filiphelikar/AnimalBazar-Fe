@@ -14,7 +14,7 @@ const Navbar = ({ druhy }: Props) => {
       </Link>
       {druhy.map((druh: string) => {
         return (
-          <Link to={`/${druh}`} className={style["link-container"]}>
+          <Link to={`/inzeraty/${druh}`} className={style["link-container"]}>
             <p>{druh}</p>
           </Link>
         );
