@@ -1,0 +1,27 @@
+.container {
+  margin-top: 20px;
+}
+
+.container input {
+  color: var(--main-text-color);
+  height: 27px;
+  margin-right: 10px;
+  border: 1px solid black;
+  border-radius: 20px;
+  padding: 0 10px;
+  font-size: large;
+}
+
+.container button {
+  color: var(--main-text-color);
+  background-color: var(--button-color);
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.container button:hover {
+  border-radius: 10px;
+  transform: translateY(-2px);
+}
