@@ -3,10 +3,23 @@
   background-color: var(--nav-bg-color);
   width: 100%;
   padding: 10px;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-section-1 {
+  width: fit-content;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  z-index: 1000;
+}
+
+.nav-section-2 {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 .link-container {
