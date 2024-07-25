@@ -19,7 +19,7 @@ const App = () => {
           <Navbar druhy={data} />
           <div className={style["main"]}>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Home druhy={data} />} />
               <Route path="/inzerat/:id" element={<OneInzeratById />} />
               <Route path={`inzeraty/:id`} element={<PageByDruh />} />
             </Routes>

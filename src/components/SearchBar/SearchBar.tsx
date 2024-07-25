@@ -1,5 +1,6 @@
 import { useState } from "react";
 import style from "./SearchBar.module.css";
+import { FaSearch } from "react-icons/fa";
 
 type Props = {
   setState: React.Dispatch<React.SetStateAction<string>>;
@@ -11,7 +12,9 @@ const SearchBar: React.FC<Props> = ({ setState, url }) => {
   return (
     <div className={style["container"]}>
       <input type="text" onChange={(e) => setInput(e.target.value)} />
-      <button onClick={() => setState(url + input)}>Vyhledat</button>
+      <button onClick={() => setState(url + input)}>
+        <FaSearch />
+      </button>
     </div>
   );
 };
