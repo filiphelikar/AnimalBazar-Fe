@@ -1,0 +1,9 @@
+.main {
+  height: fit-content;
+  min-height: 55vh;
+  width: 100%;
+  padding: 10px 30px;
+  border-radius: 10px;
+  background-color: var(--element-bg-color);
+  margin: 20px 0;
+}

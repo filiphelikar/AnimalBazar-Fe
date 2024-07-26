@@ -6,6 +6,8 @@ import OneInzeratById from "./pages/OneInzeratById/OneInzeratById";
 import { useFetch } from "./utils/useFetch";
 import PageByDruh from "./pages/PageByDruh/PageByDruh";
 import LoadingError from "./components/LoadingError/LoadingError";
+import CreateInzerat from "./pages/CreateInzerat/CreateInzerat";
+import CreateInzeratByDruh from "./pages/CreateInzeratByDruh/CreateInzeratByDruh";
 
 const App = () => {
   const { data, status } = useFetch<string[]>(
@@ -21,7 +23,12 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Home druhy={data} />} />
               <Route path="/inzerat/:id" element={<OneInzeratById />} />
-              <Route path={`inzeraty/:id`} element={<PageByDruh />} />
+              <Route path={"inzeraty/:id"} element={<PageByDruh />} />
+              <Route
+                path={"/vytvořit-inzerat"}
+                element={<CreateInzerat druhy={data} />}
+              />
+              <Route path={"/vytvořit/:id"} element={<CreateInzeratByDruh />} />
             </Routes>
           </div>
           {/* footer */}
