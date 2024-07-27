@@ -1,6 +1,6 @@
-import style from "./Navbar.module.css";
-import { Link } from "react-router-dom";
-import { PiCatDuotone } from "react-icons/pi";
+import style from './Navbar.module.css';
+import { Link } from 'react-router-dom';
+import { PiCatDuotone } from 'react-icons/pi';
 
 interface Props {
   druhy: string[];
@@ -8,21 +8,21 @@ interface Props {
 
 const Navbar = ({ druhy }: Props) => {
   return (
-    <nav className={style["nav"]}>
-      <div className={style["nav-section-1"]}>
-        <Link className={style["logo"]} to="/">
+    <nav className={style['nav']}>
+      <div className={style['nav-section-1']}>
+        <Link className={style['logo']} to='/'>
           <PiCatDuotone />
         </Link>
         {druhy.map((druh: string) => {
           return (
-            <Link to={`/inzeraty/${druh}`} className={style["link-container"]}>
+            <Link to={`/inzeraty/${druh}`} className={style['link-container']}>
               <p>{druh}</p>
             </Link>
           );
         })}
       </div>
-      <div className={style["nav-section-2"]}>
-        <Link to={"/vytvořit-inzerat"} className={style["link-container"]}>
+      <div className={style['nav-section-2']}>
+        <Link to={'/vytvořit-inzerat'} className={style['link-container']}>
           <p>vytvořit inzerát</p>
         </Link>
       </div>

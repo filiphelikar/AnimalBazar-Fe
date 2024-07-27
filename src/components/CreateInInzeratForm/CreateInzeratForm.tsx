@@ -1,7 +1,7 @@
-import {useState} from 'react';
-import {SubmitHandler, useForm} from 'react-hook-form';
+import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import style from './CreateInzeratForm.module.css';
-import {BiHide, BiShow} from 'react-icons/bi';
+import { BiHide, BiShow } from 'react-icons/bi';
 import usePostRequest from '../../utils/usePost';
 
 type FormValues = {
@@ -33,11 +33,11 @@ interface Props {
   id: string | undefined;
 }
 
-const CreateInzeratForm = ({id}: Props) => {
+const CreateInzeratForm = ({ id }: Props) => {
   const druh = id;
   const [showAdditionalField, setShowAdditionalField] = useState(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const {data, status, postRequest} = usePostRequest<NewDataFormat>('http://localhost:3000/api/inzerat/create');
+  const { data, status, postRequest } = usePostRequest<NewDataFormat>('http://localhost:3000/api/inzerat/create');
 
   const form = useForm<FormValues>({
     defaultValues: {
@@ -56,10 +56,10 @@ const CreateInzeratForm = ({id}: Props) => {
   const {
     register,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = form;
 
-  const selectChange = (e: {target: {value: string}}) => {
+  const selectChange = (e: { target: { value: string } }) => {
     if (e.target.value === 'Číslo v Kč') {
       setShowAdditionalField(true);
     } else {
@@ -70,15 +70,15 @@ const CreateInzeratForm = ({id}: Props) => {
   const onSubmit: SubmitHandler<FormValues> = (data: FormValues) => {
     let newDataFormat: Partial<FormValues> & NewDataFormat;
     if (data.cenaSelect !== 'Vyberte') {
-      data.cenaSelect === 'Číslo v Kč'
-        ? (newDataFormat = {
-            ...data,
-            cena: data.cenaNum.toString(),
-          })
-        : (newDataFormat = {
-            ...data,
-            cena: data.cenaSelect,
-          });
+      data.cenaSelect === 'Číslo v Kč' ?
+        (newDataFormat = {
+          ...data,
+          cena: data.cenaNum.toString(),
+        })
+      : (newDataFormat = {
+          ...data,
+          cena: data.cenaSelect,
+        });
       delete newDataFormat.cenaNum;
       delete newDataFormat.cenaSelect;
       postRequest(newDataFormat);
@@ -89,9 +89,9 @@ const CreateInzeratForm = ({id}: Props) => {
     <form className={style['main']} onSubmit={handleSubmit(onSubmit)} noValidate>
       <div className={style['form-1']}>
         <label className={style['label']} htmlFor='nadpis'>
-          Nadpis:<span style={{color: 'red'}}>*</span>
+          Nadpis:<span style={{ color: 'red' }}>*</span>
         </label>
-        <p className={style['error-message']} style={{color: 'red'}}>
+        <p className={style['error-message']} style={{ color: 'red' }}>
           {errors.nadpis?.message}
         </p>
         <br />
@@ -109,9 +109,9 @@ const CreateInzeratForm = ({id}: Props) => {
         />
         <br />
         <label className={style['label']} htmlFor='popis'>
-          Popis:<span style={{color: 'red'}}>*</span>
+          Popis:<span style={{ color: 'red' }}>*</span>
         </label>
-        <p className={style['error-message']} style={{color: 'red'}}>
+        <p className={style['error-message']} style={{ color: 'red' }}>
           {errors.popis?.message}
         </p>
         <br />
@@ -129,10 +129,10 @@ const CreateInzeratForm = ({id}: Props) => {
         <br />
 
         <label className={style['label']} htmlFor='cenaSelect'>
-          Cena:<span style={{color: 'red'}}>*</span>
+          Cena:<span style={{ color: 'red' }}>*</span>
         </label>
         {!showAdditionalField && (
-          <p className={style['error-message']} style={{color: 'red'}}>
+          <p className={style['error-message']} style={{ color: 'red' }}>
             {errors.cenaSelect?.message}
           </p>
         )}
@@ -155,7 +155,7 @@ const CreateInzeratForm = ({id}: Props) => {
 
         {showAdditionalField && (
           <>
-            <p className={style['error-message']} style={{color: 'red'}}>
+            <p className={style['error-message']} style={{ color: 'red' }}>
               {errors.cenaNum?.message}
             </p>
             <br />
@@ -176,9 +176,9 @@ const CreateInzeratForm = ({id}: Props) => {
       <h2>Osobní údaje:</h2>
       <div className={style['form-2']}>
         <label className={style['label']} htmlFor='prodejce'>
-          Jméno:<span style={{color: 'red'}}>*</span>
+          Jméno:<span style={{ color: 'red' }}>*</span>
         </label>
-        <p className={style['error-message']} style={{color: 'red'}}>
+        <p className={style['error-message']} style={{ color: 'red' }}>
           {errors.prodejce?.message}
         </p>
         <br />
@@ -196,9 +196,9 @@ const CreateInzeratForm = ({id}: Props) => {
         />
         <br />
         <label className={style['label']} htmlFor='telefon'>
-          Telefon:<span style={{color: 'red'}}>*</span>
+          Telefon:<span style={{ color: 'red' }}>*</span>
         </label>
-        <p className={style['error-message']} style={{color: 'red'}}>
+        <p className={style['error-message']} style={{ color: 'red' }}>
           {errors.telefon?.message}
         </p>
         <br />
@@ -216,9 +216,9 @@ const CreateInzeratForm = ({id}: Props) => {
         />
         <br />
         <label className={style['label']} htmlFor='lokalita'>
-          Lokalita:<span style={{color: 'red'}}>*</span>
+          Lokalita:<span style={{ color: 'red' }}>*</span>
         </label>
-        <p className={style['error-message']} style={{color: 'red'}}>
+        <p className={style['error-message']} style={{ color: 'red' }}>
           {errors.lokalita?.message}
         </p>
         <br />
@@ -236,9 +236,9 @@ const CreateInzeratForm = ({id}: Props) => {
         />
         <br />
         <label className={style['label']} htmlFor='psc'>
-          Psč:<span style={{color: 'red'}}>*</span>
+          Psč:<span style={{ color: 'red' }}>*</span>
         </label>
-        <p className={style['error-message']} style={{color: 'red'}}>
+        <p className={style['error-message']} style={{ color: 'red' }}>
           {errors.psc?.message}
         </p>
         <br />
@@ -256,9 +256,9 @@ const CreateInzeratForm = ({id}: Props) => {
         />
         <br />
         <label className={style['label']} htmlFor='email'>
-          E-mail:<span style={{color: 'red'}}>*</span>
+          E-mail:<span style={{ color: 'red' }}>*</span>
         </label>
-        <p className={style['error-message']} style={{color: 'red'}}>
+        <p className={style['error-message']} style={{ color: 'red' }}>
           {errors.email?.message}
         </p>
         <br />
@@ -280,9 +280,9 @@ const CreateInzeratForm = ({id}: Props) => {
         />
         <br />
         <label className={style['label']} htmlFor='heslo'>
-          Heslo:<span style={{color: 'red'}}>*</span>
+          Heslo:<span style={{ color: 'red' }}>*</span>
         </label>
-        <p className={style['error-message-password']} style={{color: 'red'}}>
+        <p className={style['error-message-password']} style={{ color: 'red' }}>
           {errors.heslo?.message}
         </p>
         <br />
@@ -292,7 +292,9 @@ const CreateInzeratForm = ({id}: Props) => {
         )}
         <div className={style['password-container']}>
           <button type='button' className={style['show-btn']} onClick={() => setShowPassword(!showPassword)}>
-            {showPassword ? <BiShow /> : <BiHide />}
+            {showPassword ?
+              <BiShow />
+            : <BiHide />}
           </button>
           <input
             className={style['input']}
@@ -314,7 +316,11 @@ const CreateInzeratForm = ({id}: Props) => {
         </div>
       </div>
       <input type='submit' />
-      {status === 'loading' ? <p>loading</p> : status === 'error' ? <p>error</p> : <p>succes</p>}
+      {status === 'loading' ?
+        <p>loading</p>
+      : status === 'error' ?
+        <p>error</p>
+      : <p>succes</p>}
     </form>
   );
 };

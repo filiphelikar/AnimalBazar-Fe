@@ -1,4 +1,4 @@
-import style from "./LoadingError.module.css";
+import style from './LoadingError.module.css';
 
 interface Props {
   status: string;
@@ -7,13 +7,11 @@ interface Props {
 const LoadingError = ({ status }: Props) => {
   return (
     <>
-      {status === "loading" ? (
-        <p className={style["loading"]}>Loading...</p>
-      ) : status === "error" ? (
-        <p className={style["error"]}>somthing went wrong :{"("}</p>
-      ) : (
-        ""
-      )}
+      {status === 'loading' ?
+        <p className={style['loading']}>Loading...</p>
+      : status === 'error' ?
+        <p className={style['error']}>somthing went wrong :{'('}</p>
+      : ''}
     </>
   );
 };
