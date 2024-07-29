@@ -5,7 +5,7 @@ import { BiHide, BiShow } from 'react-icons/bi';
 import usePostRequest from '../../utils/usePost';
 
 type FormValues = {
-  nadpis: string;
+  nazev: string;
   popis: string;
   cenaSelect: 'Za odvoz' | 'Vyberte' | 'Číslo v Kč';
   cenaNum: number;
@@ -18,7 +18,7 @@ type FormValues = {
 };
 
 interface NewDataFormat {
-  nadpis: string;
+  nazev: string;
   popis: string;
   cena: string | 'Za odvoz';
   prodejce: string;
@@ -27,6 +27,7 @@ interface NewDataFormat {
   psc: string;
   email: string;
   heslo: string;
+  druh: string | undefined;
 }
 
 interface Props {
@@ -41,7 +42,7 @@ const CreateInzeratForm = ({ id }: Props) => {
 
   const form = useForm<FormValues>({
     defaultValues: {
-      nadpis: '',
+      nazev: '',
       popis: '',
       cenaSelect: 'Vyberte',
       prodejce: '',
@@ -73,10 +74,12 @@ const CreateInzeratForm = ({ id }: Props) => {
       data.cenaSelect === 'Číslo v Kč' ?
         (newDataFormat = {
           ...data,
+          druh,
           cena: data.cenaNum.toString(),
         })
       : (newDataFormat = {
           ...data,
+          druh,
           cena: data.cenaSelect,
         });
       delete newDataFormat.cenaNum;
@@ -92,7 +95,7 @@ const CreateInzeratForm = ({ id }: Props) => {
           Nadpis:<span style={{ color: 'red' }}>*</span>
         </label>
         <p className={style['error-message']} style={{ color: 'red' }}>
-          {errors.nadpis?.message}
+          {errors.nazev?.message}
         </p>
         <br />
         <input
@@ -100,7 +103,7 @@ const CreateInzeratForm = ({ id }: Props) => {
           id='nadpis'
           type='text'
           placeholder='Aa'
-          {...register('nadpis', {
+          {...register('nazev', {
             required: {
               value: true,
               message: 'Nadpis je povinný',
