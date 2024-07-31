@@ -15,6 +15,7 @@ type FormValues = {
   psc: string;
   email: string;
   heslo: string;
+  images: FileList;
 };
 
 interface NewDataFormat {
@@ -38,7 +39,7 @@ const CreateInzeratForm = ({ id }: Props) => {
   const druh = id;
   const [showAdditionalField, setShowAdditionalField] = useState(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { data, status, postRequest } = usePostRequest<NewDataFormat>('http://localhost:3000/api/inzerat/create');
+  const { data, status, postRequest } = usePostRequest<any>('http://localhost:3000/api/inzerat/create');
 
   const form = useForm<FormValues>({
     defaultValues: {
@@ -70,6 +71,7 @@ const CreateInzeratForm = ({ id }: Props) => {
 
   const onSubmit: SubmitHandler<FormValues> = (data: FormValues) => {
     let newDataFormat: Partial<FormValues> & NewDataFormat;
+    const formData = new FormData();
     if (data.cenaSelect !== 'Vyberte') {
       data.cenaSelect === 'Číslo v Kč' ?
         (newDataFormat = {
@@ -84,7 +86,20 @@ const CreateInzeratForm = ({ id }: Props) => {
         });
       delete newDataFormat.cenaNum;
       delete newDataFormat.cenaSelect;
-      postRequest(newDataFormat);
+
+      for (const key in newDataFormat) {
+        if (newDataFormat.hasOwnProperty(key)) {
+          formData.append(key, (newDataFormat as any)[key]);
+        }
+      }
+
+      if (data.images) {
+        Array.from(data.images).forEach((file) => {
+          formData.append('images', file);
+        });
+      }
+
+      postRequest(formData);
     }
   };
 
@@ -129,6 +144,29 @@ const CreateInzeratForm = ({ id }: Props) => {
             },
           })}
         />
+        <br />
+
+        <label className={style['label']} htmlFor='images'>
+          Fotky:<span style={{ color: 'red' }}>*</span>
+        </label>
+        <p className={style['error-message']} style={{ color: 'red' }}>
+          {errors.images?.message}
+        </p>
+        <br />
+        <input
+          type='file'
+          id='images'
+          accept='image/jpg, image/jpeg, image/png, image/heic,'
+          multiple
+          className={style['input']}
+          {...register('images', {
+            required: {
+              value: true,
+              message: 'fotky jsou povinné',
+            },
+          })}
+        />
+        {/*TO DO order of photos*/}
         <br />
 
         <label className={style['label']} htmlFor='cenaSelect'>
@@ -208,7 +246,7 @@ const CreateInzeratForm = ({ id }: Props) => {
         <input
           className={style['input']}
           id='telefon'
-          type='text'
+          type='tel'
           placeholder='Aa'
           {...register('telefon', {
             required: {
