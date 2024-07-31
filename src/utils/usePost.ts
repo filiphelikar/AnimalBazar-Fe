@@ -6,14 +6,11 @@ const usePostRequest = <T>(url: string) => {
   const [data, setData] = useState<T | null>(null);
   const [status, setStatus] = useState<FetchStatus>('loading');
 
-  const postRequest = async (postData: T) => {
+  const postRequest = async (postData: FormData) => {
     try {
       const response = await fetch(url, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(postData),
+        body: postData,
       });
 
       if (!response.ok) {
