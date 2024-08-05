@@ -11,3 +11,8 @@ export interface Inzerat {
   lokalita: string;
   psc: number;
 }
+
+export interface Response {
+  id: string;
+  druh: string;
+}

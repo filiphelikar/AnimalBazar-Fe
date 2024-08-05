@@ -3,6 +3,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import style from './CreateInzeratForm.module.css';
 import { BiHide, BiShow } from 'react-icons/bi';
 import usePostRequest from '../../utils/usePost';
+import { useNavigate } from 'react-router-dom';
+import { Response } from '../../assets/interfaces';
+import { ReactSortable } from 'react-sortablejs';
 
 type FormValues = {
   nazev: string;
@@ -37,9 +40,13 @@ interface Props {
 
 const CreateInzeratForm = ({ id }: Props) => {
   const druh = id;
-  const [showAdditionalField, setShowAdditionalField] = useState(false);
+  const [showAdditionalField, setShowAdditionalField] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { data, status, postRequest } = usePostRequest<any>('http://localhost:3000/api/inzerat/create');
+  const [files, setFiles] = useState<[] | File[]>([]);
+  const { data, status, postRequest } = usePostRequest<Response>('http://localhost:3000/api/create/inzerat');
+  const navigate = useNavigate();
+
+  if (data) navigate(`/inzerat/${data.id}`);
 
   const form = useForm<FormValues>({
     defaultValues: {
@@ -68,8 +75,8 @@ const CreateInzeratForm = ({ id }: Props) => {
       setShowAdditionalField(false);
     }
   };
-
   const onSubmit: SubmitHandler<FormValues> = (data: FormValues) => {
+    console.log('submit');
     let newDataFormat: Partial<FormValues> & NewDataFormat;
     const formData = new FormData();
     if (data.cenaSelect !== 'Vyberte') {
@@ -89,18 +96,37 @@ const CreateInzeratForm = ({ id }: Props) => {
 
       for (const key in newDataFormat) {
         if (newDataFormat.hasOwnProperty(key)) {
-          formData.append(key, (newDataFormat as any)[key]);
+          if (key != 'images') formData.append(key, (newDataFormat as any)[key]);
         }
       }
 
-      if (data.images) {
-        Array.from(data.images).forEach((file) => {
+      if (files.length > 0) {
+        files.forEach((file) => {
           formData.append('images', file);
         });
       }
 
+      if (files.length > 0) {
+        const imgOrders = files.map((img) => {
+          return img.name;
+        });
+        formData.append('order', JSON.stringify(imgOrders));
+      }
+
       postRequest(formData);
     }
+  };
+
+  const handleFileSelect = (event: any) => {
+    const selectedFiles: File[] = Array.from(event.target.files);
+    const updatedFiles: File[] = [...files, ...selectedFiles];
+    setFiles(updatedFiles);
+    event.target.value = '';
+  };
+
+  const removePreview = (index: number) => {
+    const updatedFiles = files.filter((_, i) => i !== index);
+    setFiles(updatedFiles);
   };
 
   return (
@@ -160,15 +186,28 @@ const CreateInzeratForm = ({ id }: Props) => {
           multiple
           className={style['input']}
           {...register('images', {
+            onChange: handleFileSelect,
+            validate: () => files.length <= 8 || 'maximum fotek je 8',
             required: {
-              value: true,
+              value: files.length < 1,
               message: 'fotky jsou povinné',
             },
           })}
         />
-        {/*TO DO order of photos*/}
+        {files.length > 0 && (
+          <ReactSortable list={files as any} setList={setFiles} className={style['preview-container']}>
+            {files.map((file, index) => (
+              <div key={file.name + index} className={style['preview']}>
+                <img src={URL.createObjectURL(file)} alt={file.name} className={style['preview-image']} />
+                <button type='button' className={style.removeBtn} onClick={() => removePreview(index)}>
+                  X
+                </button>
+                <p>{index + 1}</p>
+              </div>
+            ))}
+          </ReactSortable>
+        )}
         <br />
-
         <label className={style['label']} htmlFor='cenaSelect'>
           Cena:<span style={{ color: 'red' }}>*</span>
         </label>
@@ -357,11 +396,9 @@ const CreateInzeratForm = ({ id }: Props) => {
         </div>
       </div>
       <input type='submit' />
-      {status === 'loading' ?
-        <p>loading</p>
-      : status === 'error' ?
+      {status === 'error' ?
         <p>error</p>
-      : <p>succes</p>}
+      : ''}
     </form>
   );
 };
