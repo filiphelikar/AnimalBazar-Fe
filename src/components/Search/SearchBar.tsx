@@ -9,13 +9,20 @@ type Props = {
 
 const SearchBar: React.FC<Props> = ({ setState, url }) => {
   const [input, setInput] = useState<string>('');
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setState(url + input);
+    setInput('');
+  };
+
   return (
-    <div className={style['container']}>
-      <input type='text' onChange={(e) => setInput(e.target.value)} />
-      <button onClick={() => setState(url + input)}>
+    <form noValidate onSubmit={onSubmit} className={style['container']}>
+      <input type='text' onChange={(e) => setInput(e.target.value)} value={input} />
+      <button type='submit'>
         <FaSearch />
       </button>
-    </div>
+    </form>
   );
 };
 
