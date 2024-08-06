@@ -1,6 +1,6 @@
 import style from './Home.module.css';
 import { Link } from 'react-router-dom';
-import Search from '../../components/Search/SearchWithResult';
+import SearchWithResult from '../../components/Search/SearchWithResult';
 
 interface Props {
   druhy: string[];
@@ -18,7 +18,7 @@ const Home = ({ druhy }: Props) => {
           );
         })}
       </div>
-      <Search />
+      <SearchWithResult />
     </>
   );
 };

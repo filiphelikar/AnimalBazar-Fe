@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import SearchBar from './SearchBar';
 
-const PageByDruh = () => {
+const SearchWithResult = () => {
   const { id } = useParams();
 
   let druh = '';
@@ -36,4 +36,4 @@ const PageByDruh = () => {
   );
 };
 
-export default PageByDruh;
+export default SearchWithResult;
