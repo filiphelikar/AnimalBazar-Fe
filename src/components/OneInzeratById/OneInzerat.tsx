@@ -6,7 +6,9 @@ const OneInzerat = ({ nazev, popis, cena, images, lokalita, psc, telefon, email,
   return (
     <div className={style['main']}>
       <h2>{nazev}</h2>
-      <Link to={`/upravit/${_id}`}>upravit/smazat</Link>
+      <Link className={style['link']} to={`/upravit/${_id}`}>
+        Smazat/Upravit
+      </Link>
       <Pictures images={images} nazev={nazev} />
       <p className={style['popis']}>{popis}</p>
       <section className={style['bottom-section']}>

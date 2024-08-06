@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 import { Inzerat } from '../../assets/interfaces';
 import style from './OneInzerat.module.css';
 
-const OneInzerat = ({ nazev, popis, cena, images, lokalita, psc, id }: Inzerat) => {
+const OneInzerat = ({ nazev, popis, cena, images, lokalita, psc, _id }: Inzerat) => {
   return (
-    <Link to={`/inzerat/${id}`} className={style['link']}>
+    <Link to={`/inzerat/${_id}`} className={style['link']}>
       <div className={style['main']}>
         <h2>{nazev}</h2>
         <img width='200px' src={images[0]} alt={nazev} />
