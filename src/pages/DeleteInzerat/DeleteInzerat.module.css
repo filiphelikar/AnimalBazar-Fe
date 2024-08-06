@@ -1,0 +1,26 @@
+.main {
+  height: fit-content;
+  min-height: 55vh;
+  width: 100%;
+  padding: 10px 30px;
+  border-radius: 10px;
+  background-color: var(--element-bg-color);
+  margin: 20px 0;
+}
+
+.password-container {
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+  margin: 0 auto;
+}
+
+.show-btn {
+  font-size: large;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  right: 8px;
+  top: 4px;
+}

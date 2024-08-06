@@ -11,7 +11,7 @@ const InzeratTable = ({ inzeraty }: Props) => {
     <div className={style['']}>
       {inzeraty.map((inzerat: Inzerat) => {
         return (
-          <div key={inzerat.id}>
+          <div key={inzerat._id}>
             <OneInzerat {...inzerat} />
           </div>
         );
