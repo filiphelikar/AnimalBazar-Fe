@@ -8,6 +8,7 @@ import PageByDruh from './pages/PageByDruh/PageByDruh';
 import LoadingError from './components/LoadingError/LoadingError';
 import CreateInzerat from './pages/CreateInzerat/CreateInzerat';
 import CreateInzeratByDruh from './pages/CreateInzeratByDruh/CreateInzeratByDruh';
+import EditInzerat from './pages/EditInzerat/EditInzerat';
 
 const App = () => {
   const { data, status } = useFetch<string[]>('http://localhost:3000/api/druhy');
@@ -24,6 +25,7 @@ const App = () => {
               <Route path={'inzeraty/:id'} element={<PageByDruh />} />
               <Route path={'/vytvořit-inzerat'} element={<CreateInzerat druhy={data} />} />
               <Route path={'/vytvořit/:id'} element={<CreateInzeratByDruh />} />
+              <Route path={'/upravit/:id'} element={<EditInzerat />} />
             </Routes>
           </div>
           {/* footer */}

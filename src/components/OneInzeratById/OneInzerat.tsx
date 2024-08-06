@@ -1,10 +1,12 @@
 import style from './OneInzerat.module.css';
 import { Inzerat } from '../../assets/interfaces';
 import Pictures from './Pictures';
-const OneInzerat = ({ nazev, popis, cena, images, lokalita, psc, telefon, email, prodejce }: Inzerat) => {
+import { Link } from 'react-router-dom';
+const OneInzerat = ({ nazev, popis, cena, images, lokalita, psc, telefon, email, prodejce, _id }: Inzerat) => {
   return (
     <div className={style['main']}>
       <h2>{nazev}</h2>
+      <Link to={`/upravit/${_id}`}>upravit/smazat</Link>
       <Pictures images={images} nazev={nazev} />
       <p className={style['popis']}>{popis}</p>
       <section className={style['bottom-section']}>
