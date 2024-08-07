@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import style from './CreateInzeratForm.module.css';
+import style from './EditInzeratForm.module.css';
 import { BiHide, BiShow } from 'react-icons/bi';
 import usePostRequest from '../../utils/usePost';
 import { useNavigate } from 'react-router-dom';
-import { Response } from '../../assets/interfaces';
+import { Inzerat, Response } from '../../assets/interfaces';
 import { ReactSortable } from 'react-sortablejs';
 
 type FormValues = {
@@ -34,33 +34,39 @@ interface NewDataFormat {
   druh: string | undefined;
 }
 
-interface Props {
-  id: string | undefined;
-}
+type Props = Inzerat;
 
-const CreateInzeratForm = ({ id }: Props) => {
-  const druh = id;
+const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita, psc, email, images }: Props) => {
+  console.log(images);
+
+  const druh = _id;
   const [showAdditionalField, setShowAdditionalField] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [files, setFiles] = useState<[] | File[]>([]);
+  const [files, setFiles] = useState<any>([...images]);
   const { data, status, postRequest } = usePostRequest<Response>('http://localhost:3000/api/create/inzerat');
   const navigate = useNavigate();
 
   if (data) navigate(`/inzerat/${data.id}`);
-
   const form = useForm<FormValues>({
     defaultValues: {
-      nazev: '',
-      popis: '',
-      cenaSelect: 'Vyberte',
-      prodejce: '',
-      telefon: '',
-      lokalita: '',
-      psc: '',
-      email: '',
+      nazev: nazev,
+      popis: popis,
+      cenaSelect: cena == 'Za odvoz' ? 'Za odvoz' : 'Číslo v Kč',
+      cenaNum: cena !== 'Za odvoz' ? +cena : undefined,
+      prodejce: prodejce,
+      telefon: telefon,
+      lokalita: lokalita,
+      psc: psc.toString(),
+      email: email,
       heslo: '',
     },
   });
+
+  useEffect(() => {
+    if (cena !== 'Za odvoz') {
+      setShowAdditionalField(true);
+    }
+  }, []);
 
   const {
     register,
@@ -107,7 +113,7 @@ const CreateInzeratForm = ({ id }: Props) => {
 
       if (files.length > 0) {
         const imgOrders = files.map((img) => {
-          return img.name;
+          return typeof img == 'string' ? img : img.name;
         });
         formData.append('order', JSON.stringify(imgOrders));
       }
@@ -118,12 +124,14 @@ const CreateInzeratForm = ({ id }: Props) => {
 
   const handleFileSelect = (event: any) => {
     const selectedFiles: File[] = Array.from(event.target.files);
-    const updatedFiles: File[] = [...files, ...selectedFiles];
+    const updatedFiles: (File | string)[] = [...files, ...selectedFiles];
+    console.log('stalo se 1');
     setFiles(updatedFiles);
     event.target.value = '';
   };
 
   const removePreview = (index: number) => {
+    console.log('stalo se 2');
     const updatedFiles = files.filter((_, i) => i !== index);
     setFiles(updatedFiles);
   };
@@ -194,10 +202,21 @@ const CreateInzeratForm = ({ id }: Props) => {
           })}
         />
         {files.length > 0 && (
-          <ReactSortable list={files as any} setList={setFiles} className={style['preview-container']}>
+          <ReactSortable
+            list={files as any}
+            setList={(array) => {
+              const newArray = array.map((img) => {
+                if (img.size) return img;
+                return img.toString();
+              });
+              setFiles(newArray);
+            }}
+            className={style['preview-container']}>
             {files.map((file, index) => (
-              <div key={file.name + index} className={style['preview']}>
-                <img src={URL.createObjectURL(file)} alt={file.name} className={style['preview-image']} />
+              <div key={index} className={style['preview']}>
+                {typeof file == 'string' ?
+                  <img src={file} className={style['preview-image']} />
+                : <img src={URL.createObjectURL(file)} alt={file.name} className={style['preview-image']} />}
                 <button type='button' className={style.removeBtn} onClick={() => removePreview(index)}>
                   X
                 </button>
@@ -402,4 +421,4 @@ const CreateInzeratForm = ({ id }: Props) => {
   );
 };
 
-export default CreateInzeratForm;
+export default EditInzeratForm;

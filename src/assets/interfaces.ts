@@ -1,5 +1,5 @@
 export interface Inzerat {
-  _id: number;
+  _id: string;
   nazev: string;
   prodejce: string;
   telefon: string;

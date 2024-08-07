@@ -1,0 +1,92 @@
+.form-1,
+.form-2 {
+  width: fit-content;
+  background-color: var(--element-2-bg-color);
+  color: var(--main-text-color);
+  padding: 15px;
+  border-radius: 5px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.label {
+  display: block;
+  margin-top: 10px;
+}
+
+.error-message {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  text-wrap: nowrap;
+}
+
+.input {
+  font-size: medium;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 5px 5px;
+  background-color: var(--input-bg-color);
+  width: 550px;
+}
+
+.textarea {
+  resize: none;
+  height: 150px;
+  width: 100%;
+  padding: 5px 5px;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: var(--input-bg-color);
+}
+
+.error-message-password {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  width: 98%;
+  z-index: 1;
+}
+
+.password-container {
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+}
+
+.show-btn {
+  font-size: large;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  right: 8px;
+  top: 4px;
+}
+
+.preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 550px;
+}
+
+.preview {
+  position: relative;
+  margin: 10px;
+}
+
+.preview-image {
+  max-width: 150px;
+  max-height: 150px;
+}
+
+.removeBtn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: none;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}

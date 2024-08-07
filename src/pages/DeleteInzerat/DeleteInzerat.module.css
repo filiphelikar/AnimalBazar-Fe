@@ -24,3 +24,10 @@
   right: 8px;
   top: 4px;
 }
+
+.error-message-password {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  text-wrap: nowrap;
+}
