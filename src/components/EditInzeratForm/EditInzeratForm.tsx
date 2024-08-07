@@ -6,6 +6,7 @@ import usePostRequest from '../../utils/usePost';
 import { useNavigate } from 'react-router-dom';
 import { Inzerat, Response } from '../../assets/interfaces';
 import { ReactSortable } from 'react-sortablejs';
+import usePut from '../../utils/usePut';
 
 type FormValues = {
   nazev: string;
@@ -31,7 +32,7 @@ interface NewDataFormat {
   psc: string;
   email: string;
   heslo: string;
-  druh: string | undefined;
+  _id: string;
 }
 
 type Props = Inzerat;
@@ -39,11 +40,10 @@ type Props = Inzerat;
 const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita, psc, email, images }: Props) => {
   console.log(images);
 
-  const druh = _id;
   const [showAdditionalField, setShowAdditionalField] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [files, setFiles] = useState<any>([...images]);
-  const { data, status, postRequest } = usePostRequest<Response>('http://localhost:3000/api/create/inzerat');
+  const [files, setFiles] = useState<(string | File)[]>([...images]);
+  const { data, status, putRequest } = usePut<Response>('http://localhost:3000/api/edit/inzerat');
   const navigate = useNavigate();
 
   if (data) navigate(`/inzerat/${data.id}`);
@@ -88,12 +88,12 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
       data.cenaSelect === 'Číslo v Kč' ?
         (newDataFormat = {
           ...data,
-          druh,
+          _id,
           cena: data.cenaNum.toString(),
         })
       : (newDataFormat = {
           ...data,
-          druh,
+          _id,
           cena: data.cenaSelect,
         });
       delete newDataFormat.cenaNum;
@@ -107,18 +107,23 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
 
       if (files.length > 0) {
         files.forEach((file) => {
-          formData.append('images', file);
+          if ((file as File).size) {
+            formData.append('images', file);
+          }
         });
       }
 
       if (files.length > 0) {
-        const imgOrders = files.map((img) => {
-          return typeof img == 'string' ? img : img.name;
+        const imgOrders = files.map((img: any) => {
+          return {
+            name: img.size ? img.name : img,
+            type: img.size ? 'new' : 'old',
+          };
         });
         formData.append('order', JSON.stringify(imgOrders));
       }
 
-      postRequest(formData);
+      putRequest(formData);
     }
   };
 
@@ -209,7 +214,7 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
                 if (img.size) return img;
                 return img.toString();
               });
-              setFiles(newArray);
+              setFiles(newArray as (string | File)[]);
             }}
             className={style['preview-container']}>
             {files.map((file, index) => (
