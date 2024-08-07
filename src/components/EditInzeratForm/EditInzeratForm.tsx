@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import style from './EditInzeratForm.module.css';
 import { BiHide, BiShow } from 'react-icons/bi';
-import usePostRequest from '../../utils/usePost';
 import { useNavigate } from 'react-router-dom';
 import { Inzerat, Response } from '../../assets/interfaces';
 import { ReactSortable } from 'react-sortablejs';

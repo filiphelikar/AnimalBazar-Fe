@@ -1,4 +1,3 @@
-import React from 'react';
 import { useParams } from 'react-router-dom';
 import EditInzeratForm from '../../components/EditInzeratForm/EditInzeratForm';
 import style from './EditInzerat.module.css';
