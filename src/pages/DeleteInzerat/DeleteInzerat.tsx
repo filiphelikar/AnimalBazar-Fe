@@ -1,8 +1,8 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useFetch } from '../../utils/useFetch';
 import { Inzerat } from '../../assets/interfaces';
 import style from './DeleteInzerat.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BiHide, BiShow } from 'react-icons/bi';
 import useDeleteRequest from '../../utils/useDelete';
 import { useForm } from 'react-hook-form';
@@ -11,7 +11,11 @@ const DeleteInzerat = () => {
   const { id } = useParams();
   const { data } = useFetch<Inzerat>(`http://localhost:3000/api/inzerat/${id}`);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { status, data: dataDelete, deleteRequest } = useDeleteRequest();
+  const { status, data: dataDelete, deleteRequest } = useDeleteRequest<Inzerat>();
+  const [showStatus, setShowStatus] = useState(false);
+  const navigate = useNavigate();
+
+  if (dataDelete) navigate(`/inzeraty/${dataDelete.druh}`);
 
   const form = useForm<{ heslo: string }>({
     defaultValues: {
@@ -29,6 +33,17 @@ const DeleteInzerat = () => {
     deleteRequest(`http://localhost:3000/api/inzerat/delete/?id=${id}&password=${data.heslo}`);
   };
 
+  useEffect(() => {
+    if (status === 'špatné heslo' && !errors.heslo?.message) {
+      setShowStatus(true);
+      const timer = setTimeout(() => {
+        setShowStatus(false);
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [status]);
+
   return (
     <div className={style['main']}>
       <h2>Smazat inzerat: {data?.nazev}</h2>
@@ -37,7 +52,11 @@ const DeleteInzerat = () => {
           Zadejte heslo:<span style={{ color: 'red' }}>*</span>
         </label>
         <p className={style['error-message-password']} style={{ color: 'red' }}>
-          {errors.heslo?.message}
+          {status == 'špatné heslo' && !errors.heslo?.message ?
+            showStatus ?
+              status
+            : ''
+          : errors.heslo?.message}
         </p>
         <br />
         <br />

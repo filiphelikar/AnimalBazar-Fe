@@ -5,11 +5,11 @@ export interface Inzerat {
   telefon: string;
   email: string;
   popis: string;
-  cena: number | 'Za odvoz';
-  druh: 'Kočka' | 'Pes';
+  cena: string | 'Za odvoz';
+  druh: string;
   images: string[];
   lokalita: string;
-  psc: number;
+  psc: string;
 }
 
 export interface Response {

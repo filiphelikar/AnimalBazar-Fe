@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import style from './EditInzeratForm.module.css';
 import { BiHide, BiShow } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
-import { Inzerat, Response } from '../../assets/interfaces';
+import { Inzerat } from '../../assets/interfaces';
 import { ReactSortable } from 'react-sortablejs';
 import usePut from '../../utils/usePut';
 
