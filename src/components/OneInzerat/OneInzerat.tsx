@@ -8,7 +8,7 @@ const OneInzerat = ({ nazev, popis, cena, images, lokalita, psc, _id }: Inzerat)
       <div className={style['main']}>
         <h2>{nazev}</h2>
         <img width='200px' src={images[0]} alt={nazev} />
-        <p>{popis}</p>
+        <p className={style['popis']}>{popis}</p>
         <p className={style['price']}>
           <b>{cena == 'Za odvoz' ? cena : cena + ' Kč'}</b>
         </p>

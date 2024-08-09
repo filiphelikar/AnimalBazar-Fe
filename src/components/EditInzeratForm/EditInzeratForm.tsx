@@ -37,15 +37,14 @@ interface NewDataFormat {
 type Props = Inzerat;
 
 const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita, psc, email, images }: Props) => {
-  console.log(images);
-
+  const [showStatus, setShowStatus] = useState(false);
   const [showAdditionalField, setShowAdditionalField] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [files, setFiles] = useState<(string | File)[]>([...images]);
-  const { data, status, putRequest } = usePut<Response>('http://localhost:3000/api/edit/inzerat');
+  const { data, status, putRequest } = usePut<Inzerat>('http://localhost:3000/api/edit/inzerat');
   const navigate = useNavigate();
 
-  if (data) navigate(`/inzerat/${data.id}`);
+  if (data) navigate(`/inzerat/${data._id}`);
   const form = useForm<FormValues>({
     defaultValues: {
       nazev: nazev,
@@ -140,6 +139,17 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
     setFiles(updatedFiles);
   };
 
+  useEffect(() => {
+    if (status === 'špatné heslo' && !errors.heslo?.message) {
+      setShowStatus(true);
+      const timer = setTimeout(() => {
+        setShowStatus(false);
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [status]);
+
   return (
     <form className={style['main']} onSubmit={handleSubmit(onSubmit)} noValidate>
       <div className={style['form-1']}>
@@ -160,6 +170,10 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
               value: true,
               message: 'Nadpis je povinný',
             },
+            maxLength: {
+              value: 60,
+              message: 'maximální povolená delka Nadpisu je 60 znaků',
+            },
           })}
         />
         <br />
@@ -179,6 +193,10 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
               value: true,
               message: 'Popis je povinný',
             },
+            maxLength: {
+              value: 600,
+              message: 'maximální povolená delka Popisu je 600 znaků',
+            },
           })}
         />
         <br />
@@ -193,7 +211,7 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
         <input
           type='file'
           id='images'
-          accept='image/jpg, image/jpeg, image/png, image/heic,'
+          accept='image/jpg, image/jpeg, image/png, image/heic, image/webp,'
           multiple
           className={style['input']}
           {...register('images', {
@@ -270,6 +288,10 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
                   value: true,
                   message: 'Cena je povinná',
                 },
+                maxLength: {
+                  value: 7,
+                  message: 'maximální povolená delka Ceny je 7 číslic',
+                },
               })}
             />
           </>
@@ -294,6 +316,10 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
               value: true,
               message: 'Jméno je povinné',
             },
+            maxLength: {
+              value: 30,
+              message: 'maximální povolená delka Jména je 30 znaků',
+            },
           })}
         />
         <br />
@@ -313,6 +339,10 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
             required: {
               value: true,
               message: 'Telefon je povinný',
+            },
+            maxLength: {
+              value: 16,
+              message: 'maximální povolená delka Tel. čísla je 16 znaků',
             },
           })}
         />
@@ -334,6 +364,10 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
               value: true,
               message: 'Lokalita je povinná',
             },
+            maxLength: {
+              value: 40,
+              message: 'maximální povolená delka Lokality je 40 znaků',
+            },
           })}
         />
         <br />
@@ -347,12 +381,16 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
         <input
           className={style['input']}
           id='psc'
-          type='text'
+          type='number'
           placeholder='Aa'
           {...register('psc', {
             required: {
               value: true,
               message: 'Psč je povinné',
+            },
+            maxLength: {
+              value: 10,
+              message: 'maximální povolená delka Psč je 10 číslic',
             },
           })}
         />
@@ -378,6 +416,10 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
               value: true,
               message: 'E-mail je povinný',
             },
+            maxLength: {
+              value: 50,
+              message: 'maximální povolená delka E-mailu je 50 znaků',
+            },
           })}
         />
         <br />
@@ -385,13 +427,13 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
           Heslo:<span style={{ color: 'red' }}>*</span>
         </label>
         <p className={style['error-message-password']} style={{ color: 'red' }}>
-          {errors.heslo?.message}
+          {status == 'špatné heslo' && !errors.heslo?.message ?
+            showStatus ?
+              status
+            : ''
+          : errors.heslo?.message}
         </p>
         <br />
-        {errors.heslo?.message ===
-          'Heslo musí obsahovat alespoň jedno malé písmeno, jedno velké písmeno, jedno číslo, jeden speciální znak a musí mít minimálně 8 znaků' && (
-          <br />
-        )}
         <div className={style['password-container']}>
           <button type='button' className={style['show-btn']} onClick={() => setShowPassword(!showPassword)}>
             {showPassword ?
@@ -408,19 +450,11 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
                 value: true,
                 message: 'Heslo je povinné',
               },
-              pattern: {
-                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                message:
-                  'Heslo musí obsahovat alespoň jedno malé písmeno, jedno velké písmeno, jedno číslo, jeden speciální znak a musí mít minimálně 8 znaků',
-              },
             })}
           />
         </div>
       </div>
       <input type='submit' />
-      {status === 'error' ?
-        <p>error</p>
-      : ''}
     </form>
   );
 };

@@ -148,6 +148,10 @@ const CreateInzeratForm = ({ id }: Props) => {
               value: true,
               message: 'Nadpis je povinný',
             },
+            maxLength: {
+              value: 60,
+              message: 'maximální povolená delka Nadpisu je 60 znaků',
+            },
           })}
         />
         <br />
@@ -167,6 +171,10 @@ const CreateInzeratForm = ({ id }: Props) => {
               value: true,
               message: 'Popis je povinný',
             },
+            maxLength: {
+              value: 600,
+              message: 'maximální povolená delka Popisu je 600 znaků',
+            },
           })}
         />
         <br />
@@ -181,7 +189,7 @@ const CreateInzeratForm = ({ id }: Props) => {
         <input
           type='file'
           id='images'
-          accept='image/jpg, image/jpeg, image/png, image/heic,'
+          accept='image/jpg, image/jpeg, image/png, image/heic, image/webp,'
           multiple
           className={style['input']}
           {...register('images', {
@@ -247,6 +255,10 @@ const CreateInzeratForm = ({ id }: Props) => {
                   value: true,
                   message: 'Cena je povinná',
                 },
+                maxLength: {
+                  value: 7,
+                  message: 'maximální povolená delka Ceny je 7 číslic',
+                },
               })}
             />
           </>
@@ -271,6 +283,10 @@ const CreateInzeratForm = ({ id }: Props) => {
               value: true,
               message: 'Jméno je povinné',
             },
+            maxLength: {
+              value: 30,
+              message: 'maximální povolená delka Jména je 30 znaků',
+            },
           })}
         />
         <br />
@@ -290,6 +306,10 @@ const CreateInzeratForm = ({ id }: Props) => {
             required: {
               value: true,
               message: 'Telefon je povinný',
+            },
+            maxLength: {
+              value: 16,
+              message: 'maximální povolená delka Tel. čísla je 16 znaků',
             },
           })}
         />
@@ -311,6 +331,10 @@ const CreateInzeratForm = ({ id }: Props) => {
               value: true,
               message: 'Lokalita je povinná',
             },
+            maxLength: {
+              value: 40,
+              message: 'maximální povolená delka Lokality je 40 znaků',
+            },
           })}
         />
         <br />
@@ -330,6 +354,10 @@ const CreateInzeratForm = ({ id }: Props) => {
             required: {
               value: true,
               message: 'Psč je povinné',
+            },
+            maxLength: {
+              value: 10,
+              message: 'maximální povolená delka Psč je 10 číslic',
             },
           })}
         />
@@ -354,6 +382,10 @@ const CreateInzeratForm = ({ id }: Props) => {
             required: {
               value: true,
               message: 'E-mail je povinný',
+            },
+            maxLength: {
+              value: 50,
+              message: 'maximální povolená delka E-mailu je 50 znaků',
             },
           })}
         />
@@ -389,6 +421,10 @@ const CreateInzeratForm = ({ id }: Props) => {
                 value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                 message:
                   'Heslo musí obsahovat alespoň jedno malé písmeno, jedno velké písmeno, jedno číslo, jeden speciální znak a musí mít minimálně 8 znaků',
+              },
+              maxLength: {
+                value: 50,
+                message: 'maximální povolená delka Hesla je 50 znaků',
               },
             })}
           />

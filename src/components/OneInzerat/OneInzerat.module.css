@@ -7,10 +7,11 @@
   width: fit-content;
   height: fit-content;
   min-height: 280px;
+  width: 100%;
   padding: 10px 30px;
   border-radius: 10px;
   background-color: var(--element-bg-color);
-  margin: 20px 0;
+  margin: 20px 20px;
 }
 
 .main h2 {
@@ -25,12 +26,21 @@
   object-fit: cover;
   border-radius: 5px;
   float: left;
+  margin-right: 20px;
 }
 
 .main p {
   margin-top: 20px;
   font-size: 17px;
   color: var(--main-text-color);
+}
+
+.popis {
+  margin-top: 20px;
+  font-size: 17px;
+  width: fit-content;
+  color: var(--main-text-color);
+  text-align: left;
 }
 
 .price {
