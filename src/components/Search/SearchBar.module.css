@@ -10,6 +10,7 @@
   border-radius: 20px;
   padding: 0 10px;
   font-size: large;
+  background-color: var(--nav-a-container);
 }
 
 .container button {

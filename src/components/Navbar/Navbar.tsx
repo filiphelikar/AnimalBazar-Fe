@@ -1,12 +1,16 @@
 import style from './Navbar.module.css';
 import { Link } from 'react-router-dom';
 import { PiCatDuotone } from 'react-icons/pi';
+import ThemeButton from '../ThemeButton/ThemeButton';
+import { SetStateAction } from 'react';
 
 interface Props {
   druhy: string[];
+  setTheme: (theme: boolean) => void;
+  theme: boolean;
 }
 
-const Navbar = ({ druhy }: Props) => {
+const Navbar: React.FC<Props> = ({ druhy, setTheme, theme }) => {
   return (
     <nav className={style['nav']}>
       <div className={style['nav-section-1']}>
@@ -25,6 +29,7 @@ const Navbar = ({ druhy }: Props) => {
         <Link to={'/vytvořit-inzerat'} className={style['link-container']}>
           <p>vytvořit inzerát</p>
         </Link>
+        <ThemeButton setTheme={setTheme} theme={theme} />
       </div>
     </nav>
   );

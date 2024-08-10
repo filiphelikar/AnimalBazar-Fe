@@ -1,6 +1,43 @@
 .main {
-  max-width: 1280px;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
   margin: 0px auto;
   padding: 48px 0 0;
   text-align: center;
+  background-color: var(--background-color);
+}
+
+.layout {
+  max-width: 1280px;
+  height: 100%;
+  margin: 0px auto;
+  text-align: center;
+  background-color: var(--background-color);
+}
+
+.light {
+  --background-color: #ffffff;
+  --nav-bg-color: #b9b9b9;
+  --nav-a-container: #ffffff;
+  --nav-text-color: #000000;
+  --element-bg-color: rgb(206, 206, 206);
+  --element-2-bg-color: rgb(197, 197, 197);
+  --main-text-color: rgb(0, 0, 0);
+  --activ-button-color: rgb(56, 56, 56);
+  --button-color: rgb(0, 0, 0);
+  --input-bg-color: rgb(216, 216, 216);
+}
+
+.dark {
+  --background-color: #242424;
+  --nav-bg-color: #4d4d4d;
+  --nav-a-container: #292929;
+  --nav-text-color: #dddddd;
+  --element-bg-color: rgb(70, 70, 70);
+  --element-2-bg-color: rgb(44, 44, 44);
+  --main-text-color: rgb(255, 255, 255);
+  --activ-button-color: rgb(180, 180, 180);
+  --button-color: rgb(63, 63, 63);
+  --input-bg-color: rgb(70, 70, 70);
 }

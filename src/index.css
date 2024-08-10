@@ -5,22 +5,11 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  --nav-bg-color: #4d4d4d;
-  --nav-a-container: #292929;
-  --nav-text-color: #dddddd;
-  --element-bg-color: rgb(70, 70, 70);
-  --element-2-bg-color: rgb(44, 44, 44);
-  --main-text-color: rgb(255, 255, 255);
-  --activ-button-color: rgb(180, 180, 180);
-  --button-color: rgb(63, 63, 63);
-  --input-bg-color: rgb(70, 70, 70);
 }
 
 * {
