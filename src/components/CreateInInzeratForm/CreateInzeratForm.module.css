@@ -28,6 +28,7 @@
   padding: 5px 5px;
   background-color: var(--input-bg-color);
   width: 550px;
+  color: var(--main-text-color);
 }
 
 .textarea {
@@ -37,6 +38,12 @@
   padding: 5px 5px;
   border: 1px solid black;
   border-radius: 10px;
+  background-color: var(--input-bg-color);
+  color: var(--main-text-color);
+}
+
+.select {
+  color: var(--main-text-color);
   background-color: var(--input-bg-color);
 }
 
@@ -62,6 +69,7 @@
   position: absolute;
   right: 8px;
   top: 4px;
+  color: var(--main-text-color);
 }
 
 .preview-container {
@@ -86,7 +94,7 @@
   top: 5px;
   right: 5px;
   background: none;
-  color: white;
+  color: black;
   border: none;
   border-radius: 50%;
   cursor: pointer;

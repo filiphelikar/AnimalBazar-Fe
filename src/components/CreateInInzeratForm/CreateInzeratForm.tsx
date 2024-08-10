@@ -229,6 +229,7 @@ const CreateInzeratForm = ({ id }: Props) => {
           </>
         )}
         <select
+          className={style['select']}
           id='cenaSelect'
           {...register('cenaSelect', {
             validate: (value) => value !== 'Vyberte' || 'Vyberte možnost',

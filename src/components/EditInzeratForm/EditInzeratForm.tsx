@@ -262,6 +262,7 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
           </>
         )}
         <select
+          className={style['select']}
           id='cenaSelect'
           {...register('cenaSelect', {
             validate: (value) => value !== 'Vyberte' || 'Vyberte možnost',

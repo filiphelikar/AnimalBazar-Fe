@@ -5,6 +5,7 @@
   border-radius: 10px;
   background-color: var(--element-bg-color);
   margin: 20px 0;
+  color: var(--main-text-color);
 }
 
 .container {
