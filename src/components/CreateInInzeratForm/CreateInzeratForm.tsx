@@ -431,7 +431,7 @@ const CreateInzeratForm = ({ id }: Props) => {
           />
         </div>
       </div>
-      <input type='submit' />
+      <input className={style['button']} type='submit' />
       {status === 'error' ?
         <p>error</p>
       : ''}

@@ -79,7 +79,7 @@ const DeleteInzerat = () => {
             })}
           />
         </div>
-        <input type='submit' value='Smazat' />
+        <input className={style['button']} type='submit' value='Smazat' />
       </form>
     </div>
   );

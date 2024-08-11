@@ -455,7 +455,7 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
           />
         </div>
       </div>
-      <input type='submit' />
+      <input className={style['button']} type='submit' />
     </form>
   );
 };

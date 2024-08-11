@@ -27,6 +27,11 @@
   --activ-button-color: rgb(56, 56, 56);
   --button-color: rgb(0, 0, 0);
   --input-bg-color: rgb(216, 216, 216);
+  --button-color: rgb(230, 230, 230);
+  --button-shadow-hover: rgba(45, 35, 66, 0.3);
+  --button-shadow-active: #d6d6e7;
+  --button-box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, var(--button-shadow-hover) 0 7px 13px -3px,
+    var(--button-shadow-active) 0 -3px 0 inset;
 }
 
 .dark {
@@ -40,4 +45,9 @@
   --activ-button-color: rgb(180, 180, 180);
   --button-color: rgb(63, 63, 63);
   --input-bg-color: rgb(70, 70, 70);
+  --button-color: rgb(37, 37, 37);
+  --button-shadow-hover: rgba(0, 0, 0, 0.3);
+  --button-shadow-active: #000000;
+  --button-box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, var(--button-shadow-hover) 0 7px 13px -3px,
+    var(--button-shadow-active) 0 -3px 0 inset;
 }

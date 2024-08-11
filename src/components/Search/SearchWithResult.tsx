@@ -25,6 +25,7 @@ const SearchWithResult = () => {
   if (id) {
     useEffect(() => {
       setSubmitInput(url);
+      setMessage(null);
     }, [id]);
   }
 
