@@ -14,6 +14,7 @@
   margin: 0px auto;
   text-align: center;
   background-color: var(--background-color);
+  padding-bottom: 20px;
 }
 
 .light {
@@ -50,4 +51,10 @@
   --button-shadow-active: #000000;
   --button-box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, var(--button-shadow-hover) 0 7px 13px -3px,
     var(--button-shadow-active) 0 -3px 0 inset;
+}
+
+@media (max-width: 1280px) {
+  .layout {
+    margin: 0 20px;
+  }
 }

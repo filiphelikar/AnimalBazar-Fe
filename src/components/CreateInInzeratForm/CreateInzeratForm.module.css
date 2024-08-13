@@ -34,7 +34,8 @@
 .textarea {
   resize: none;
   height: 150px;
-  width: 100%;
+  width: 550px;
+  max-width: 80vw;
   padding: 5px 5px;
   border: 1px solid black;
   border-radius: 10px;
@@ -75,7 +76,9 @@
 .preview-container {
   display: flex;
   flex-wrap: wrap;
+  width: fit-content;
   width: 550px;
+  max-width: 80vw;
 }
 
 .preview {
@@ -100,7 +103,8 @@
   cursor: pointer;
 }
 
-.button {
+.button,
+.button-file {
   margin-top: 10px;
   align-items: center;
   appearance: none;
@@ -134,7 +138,8 @@
   font-size: 15px;
 }
 
-.button:focus {
+.button:focus,
+.button-file:focus {
   box-shadow:
     var(--button-shadow-active) 0 0 0 1.5px inset,
     var(--button-shadow-hover) 0 2px 4px,
@@ -142,7 +147,8 @@
     var(--button-shadow-active) 0 -3px 0 inset;
 }
 
-.button:hover {
+.button:hover,
+.button-file:hover {
   box-shadow:
     var(--button-shadow-hover) 0 4px 8px,
     var(--button-shadow-hover) 0 7px 13px -3px,
@@ -150,7 +156,28 @@
   transform: translateY(-2px);
 }
 
-.button:active {
+.button:active,
+.button-file:active {
   box-shadow: var(--button-shadow-active) 0 3px 7px inset;
   transform: translateY(2px);
+}
+
+.button-file {
+  margin-top: 0;
+}
+
+@media (max-width: 700px) {
+  .input {
+    font-size: medium;
+    padding: 5px 5px;
+    width: 550px;
+    max-width: 80vw;
+  }
+
+  .textarea {
+    height: 150px;
+    width: 550px;
+    max-width: 80vw;
+    padding: 5px 5px;
+  }
 }

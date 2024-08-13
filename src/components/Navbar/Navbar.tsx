@@ -60,6 +60,7 @@ const Navbar: React.FC<Props> = ({ druhy, setTheme, theme }) => {
         </Link>
         <ThemeButton setTheme={setTheme} theme={theme} />
       </div>
+      {menuOpen && <div onClick={() => setMenuOpen(!menuOpen)} className={style['bg-close']}></div>}
     </nav>
   );
 };

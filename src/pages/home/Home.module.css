@@ -25,3 +25,11 @@
 .container a:hover {
   transform: scale(1.01);
 }
+
+@media (max-width: 630px) {
+  .container a {
+    height: 100px;
+    width: 100px;
+    margin: 10px;
+  }
+}

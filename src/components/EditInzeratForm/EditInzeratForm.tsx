@@ -43,6 +43,19 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
   const [files, setFiles] = useState<(string | File)[]>([...images]);
   const { data, status, putRequest } = usePut<Inzerat>('http://localhost:3000/api/edit/inzerat');
   const navigate = useNavigate();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   if (data) navigate(`/inzerat/${data._id}`);
   const form = useForm<FormValues>({
@@ -208,12 +221,16 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
           {errors.images?.message}
         </p>
         <br />
+        <label className={style['button-file']} htmlFor='images'>
+          Nahrajte fotky
+        </label>
         <input
           type='file'
           id='images'
           accept='image/jpg, image/jpeg, image/png, image/heic, image/webp,'
           multiple
           className={style['input']}
+          style={{ display: 'none' }}
           {...register('images', {
             onChange: handleFileSelect,
             validate: () => files.length <= 8 || 'maximum fotek je 8',
@@ -427,14 +444,32 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
         <label className={style['label']} htmlFor='heslo'>
           Heslo:<span style={{ color: 'red' }}>*</span>
         </label>
-        <p className={style['error-message-password']} style={{ color: 'red' }}>
-          {status == 'špatné heslo' && !errors.heslo?.message ?
-            showStatus ?
-              status
-            : ''
-          : errors.heslo?.message}
-        </p>
+
+        {windowWidth < 620 ?
+          errors.heslo?.message !==
+            'Heslo musí obsahovat alespoň jedno malé písmeno, jedno velké písmeno, jedno číslo, jeden speciální znak a musí mít minimálně 8 znaků' && (
+            <p className={style['error-message-password']} style={{ color: 'red' }}>
+              {status == 'špatné heslo' && !errors.heslo?.message ?
+                showStatus ?
+                  status
+                : ''
+              : errors.heslo?.message}
+            </p>
+          )
+        : <p className={style['error-message-password']} style={{ color: 'red' }}>
+            {status == 'špatné heslo' && !errors.heslo?.message ?
+              showStatus ?
+                status
+              : ''
+            : errors.heslo?.message}
+          </p>
+        }
         <br />
+        {windowWidth > 620 &&
+          errors.heslo?.message ===
+            'Heslo musí obsahovat alespoň jedno malé písmeno, jedno velké písmeno, jedno číslo, jeden speciální znak a musí mít minimálně 8 znaků' && (
+            <br />
+          )}
         <div className={style['password-container']}>
           <button type='button' className={style['show-btn']} onClick={() => setShowPassword(!showPassword)}>
             {showPassword ?
@@ -451,9 +486,29 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
                 value: true,
                 message: 'Heslo je povinné',
               },
+              pattern: {
+                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                message:
+                  'Heslo musí obsahovat alespoň jedno malé písmeno, jedno velké písmeno, jedno číslo, jeden speciální znak a musí mít minimálně 8 znaků',
+              },
+              maxLength: {
+                value: 50,
+                message: 'maximální povolená delka Hesla je 50 znaků',
+              },
             })}
           />
         </div>
+        {windowWidth <= 620 &&
+          errors.heslo?.message ===
+            'Heslo musí obsahovat alespoň jedno malé písmeno, jedno velké písmeno, jedno číslo, jeden speciální znak a musí mít minimálně 8 znaků' && (
+            <p className={style['error-message-password']} style={{ color: 'red', position: 'relative' }}>
+              {status == 'špatné heslo' && !errors.heslo?.message ?
+                showStatus ?
+                  status
+                : ''
+              : errors.heslo?.message}
+            </p>
+          )}
       </div>
       <input className={style['button']} type='submit' />
     </form>

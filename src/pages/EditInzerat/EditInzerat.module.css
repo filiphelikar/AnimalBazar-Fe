@@ -8,3 +8,10 @@
   margin: 20px 0;
   color: var(--main-text-color);
 }
+
+@media (max-width: 700px) {
+  .main {
+    background-color: var(--backgroun-color);
+    padding: 0;
+  }
+}

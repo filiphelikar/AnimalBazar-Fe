@@ -23,6 +23,7 @@
   padding: 5px 5px;
   background-color: var(--input-bg-color);
   width: 350px;
+  max-width: 70vw;
   color: var(--main-text-color);
 }
 

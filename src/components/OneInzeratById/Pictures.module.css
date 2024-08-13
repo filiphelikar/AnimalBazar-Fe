@@ -35,3 +35,21 @@
   cursor: pointer;
   font-size: 11px;
 }
+
+@media (max-width: 630px) {
+  .img-container img {
+    height: 400px;
+    width: 300px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+}
+
+@media (max-width: 420px) {
+  .img-container img {
+    height: 350px;
+    width: 250px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+}

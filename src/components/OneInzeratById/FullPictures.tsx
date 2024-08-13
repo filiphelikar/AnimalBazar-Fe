@@ -19,7 +19,9 @@ const FullPictures = ({ images, img, nextPrevImg, isHide, setIsHide, nazev }: Pr
             <button className={style['button-prev']} onClick={() => nextPrevImg('prev')}>
               <IoIosArrowBack />
             </button>
-            <img width='500px' src={images[img]} alt={nazev} />
+            <div className={style['img-container']}>
+              <img width='500px' src={images[img]} alt={nazev} />
+            </div>
             <button className={style['button-next']} onClick={() => nextPrevImg('next')}>
               <IoIosArrowForward />
             </button>

@@ -11,7 +11,11 @@ const CreateInzerat = ({ druhy }: Props) => {
       <h2>Vyberte Sekci:</h2>
       <div className={style['container']}>
         {druhy.map((druh) => {
-          return <Link to={`/vytvořit/${druh}`}>{druh}</Link>;
+          return (
+            <Link key={druh} to={`/vytvořit/${druh}`}>
+              {druh}
+            </Link>
+          );
         })}
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import style from './CreateInzeratForm.module.css';
 import { BiHide, BiShow } from 'react-icons/bi';
@@ -44,9 +44,22 @@ const CreateInzeratForm = ({ id }: Props) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [files, setFiles] = useState<[] | File[]>([]);
   const { data, status, postRequest } = usePostRequest<Response>('http://localhost:3000/api/create/inzerat');
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
 
   if (data) navigate(`/inzerat/${data.id}`);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const form = useForm<FormValues>({
     defaultValues: {
@@ -186,12 +199,15 @@ const CreateInzeratForm = ({ id }: Props) => {
           {errors.images?.message}
         </p>
         <br />
+        <label className={style['button-file']} htmlFor='images'>
+          Nahrajte fotky
+        </label>
         <input
           type='file'
           id='images'
           accept='image/jpg, image/jpeg, image/png, image/heic, image/webp,'
           multiple
-          className={style['input']}
+          style={{ display: 'none' }}
           {...register('images', {
             onChange: handleFileSelect,
             validate: () => files.length <= 8 || 'maximum fotek je 8',
@@ -394,14 +410,23 @@ const CreateInzeratForm = ({ id }: Props) => {
         <label className={style['label']} htmlFor='heslo'>
           Heslo:<span style={{ color: 'red' }}>*</span>
         </label>
-        <p className={style['error-message-password']} style={{ color: 'red' }}>
-          {errors.heslo?.message}
-        </p>
+        {windowWidth < 620 ?
+          errors.heslo?.message !==
+            'Heslo musí obsahovat alespoň jedno malé písmeno, jedno velké písmeno, jedno číslo, jeden speciální znak a musí mít minimálně 8 znaků' && (
+            <p className={style['error-message-password']} style={{ color: 'red' }}>
+              {errors.heslo?.message}
+            </p>
+          )
+        : <p className={style['error-message-password']} style={{ color: 'red' }}>
+            {errors.heslo?.message}
+          </p>
+        }
         <br />
-        {errors.heslo?.message ===
-          'Heslo musí obsahovat alespoň jedno malé písmeno, jedno velké písmeno, jedno číslo, jeden speciální znak a musí mít minimálně 8 znaků' && (
-          <br />
-        )}
+        {windowWidth > 620 &&
+          errors.heslo?.message ===
+            'Heslo musí obsahovat alespoň jedno malé písmeno, jedno velké písmeno, jedno číslo, jeden speciální znak a musí mít minimálně 8 znaků' && (
+            <br />
+          )}
         <div className={style['password-container']}>
           <button type='button' className={style['show-btn']} onClick={() => setShowPassword(!showPassword)}>
             {showPassword ?
@@ -430,6 +455,13 @@ const CreateInzeratForm = ({ id }: Props) => {
             })}
           />
         </div>
+        {windowWidth <= 620 &&
+          errors.heslo?.message ===
+            'Heslo musí obsahovat alespoň jedno malé písmeno, jedno velké písmeno, jedno číslo, jeden speciální znak a musí mít minimálně 8 znaků' && (
+            <p className={style['error-message-password']} style={{ color: 'red', position: 'relative' }}>
+              {errors.heslo?.message}
+            </p>
+          )}
       </div>
       <input className={style['button']} type='submit' />
       {status === 'error' ?
