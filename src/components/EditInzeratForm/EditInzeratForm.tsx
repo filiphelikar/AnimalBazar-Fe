@@ -1,25 +1,27 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import style from './EditInzeratForm.module.css';
 import { BiHide, BiShow } from 'react-icons/bi';
+import usePutRequest from '../../utils/usePut';
 import { useNavigate } from 'react-router-dom';
-import { Inzerat } from '../../assets/interfaces';
+import { FormValues, Inzerat, Response } from '../../assets/interfaces';
 import { ReactSortable } from 'react-sortablejs';
-import usePut from '../../utils/usePut';
+import FormInput from '../FormInput/FormInput';
 
-type FormValues = {
-  nazev: string;
-  popis: string;
-  cenaSelect: 'Za odvoz' | 'Vyberte' | 'Číslo v Kč';
-  cenaNum: number;
-  prodejce: string;
-  telefon: string;
-  lokalita: string;
-  psc: string;
-  email: string;
-  heslo: string;
-  images: FileList;
+type Props = Inzerat;
+
+const initialState: State = {
+  showPassword: false,
+  showAdditionalField: false,
+  files: [],
+  showStatus: false,
 };
+interface State {
+  showPassword: boolean;
+  showAdditionalField: boolean;
+  files: (string | File)[];
+  showStatus: boolean;
+}
 
 interface NewDataFormat {
   nazev: string;
@@ -34,31 +36,53 @@ interface NewDataFormat {
   _id: string;
 }
 
-type Props = Inzerat;
+type Action =
+  | { type: 'TOGGLE_PASSWORD' }
+  | { type: 'TOGGLE_ADDITIONAL_FIELD'; show: boolean }
+  | { type: 'SET_FILES'; files: (string | File)[] }
+  | { type: 'REMOVE_FILE'; index: number }
+  | { type: 'TOGGLE_TRUE' }
+  | { type: 'TOGGLE_FALSE' };
+
+const reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case 'TOGGLE_PASSWORD':
+      return { ...state, showPassword: !state.showPassword };
+    case 'TOGGLE_ADDITIONAL_FIELD':
+      return { ...state, showAdditionalField: action.show };
+    case 'SET_FILES':
+      return { ...state, files: action.files };
+    case 'REMOVE_FILE':
+      return { ...state, files: state.files.filter((_, i) => i !== action.index) };
+    case 'TOGGLE_TRUE':
+      return { ...state, showStatus: true };
+    case 'TOGGLE_FALSE':
+      return { ...state, showStatus: false };
+    case 'REMOVE_FILE':
+      return { ...state, files: state.files.filter((_, i) => i !== action.index) };
+    default:
+      return state;
+  }
+};
 
 const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita, psc, email, images }: Props) => {
-  const [showStatus, setShowStatus] = useState(false);
-  const [showAdditionalField, setShowAdditionalField] = useState<boolean>(false);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [files, setFiles] = useState<(string | File)[]>([...images]);
-  const { data, status, putRequest } = usePut<Inzerat>('http://localhost:3000/api/edit/inzerat');
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { showPassword, showAdditionalField, files, showStatus } = state;
+  const { data, status, putRequest } = usePutRequest<Response>('http://localhost:3000/api/edit/inzerat');
   const navigate = useNavigate();
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+    dispatch({ type: 'SET_FILES', files: [...images] });
+    cena != 'Za odvoz' && dispatch({ type: 'TOGGLE_ADDITIONAL_FIELD', show: true });
   }, []);
 
   if (data) navigate(`/inzerat/${data._id}`);
-  const form = useForm<FormValues>({
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({
     defaultValues: {
       nazev: nazev,
       popis: popis,
@@ -73,25 +97,10 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
     },
   });
 
-  useEffect(() => {
-    if (cena !== 'Za odvoz') {
-      setShowAdditionalField(true);
-    }
-  }, []);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = form;
-
   const selectChange = (e: { target: { value: string } }) => {
-    if (e.target.value === 'Číslo v Kč') {
-      setShowAdditionalField(true);
-    } else {
-      setShowAdditionalField(false);
-    }
+    dispatch({ type: 'TOGGLE_ADDITIONAL_FIELD', show: e.target.value === 'Číslo v Kč' });
   };
+
   const onSubmit: SubmitHandler<FormValues> = (data: FormValues) => {
     let newDataFormat: Partial<FormValues> & NewDataFormat;
     const formData = new FormData();
@@ -138,89 +147,61 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
     }
   };
 
-  const handleFileSelect = (event: any) => {
-    const selectedFiles: File[] = Array.from(event.target.files);
-    const updatedFiles: (File | string)[] = [...files, ...selectedFiles];
-    console.log('stalo se 1');
-    setFiles(updatedFiles);
-    event.target.value = '';
-  };
-
-  const removePreview = (index: number) => {
-    console.log('stalo se 2');
-    const updatedFiles = files.filter((_, i) => i !== index);
-    setFiles(updatedFiles);
-  };
-
   useEffect(() => {
     if (status === 'špatné heslo' && !errors.heslo?.message) {
-      setShowStatus(true);
+      dispatch({ type: 'TOGGLE_TRUE' });
       const timer = setTimeout(() => {
-        setShowStatus(false);
+        dispatch({ type: 'TOGGLE_FALSE' });
       }, 2000);
 
       return () => clearTimeout(timer);
     }
   }, [status]);
 
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const selectedFiles = Array.from(event.target.files);
+      dispatch({ type: 'SET_FILES', files: [...files, ...selectedFiles] });
+      event.target.value = '';
+    }
+  };
+
   return (
     <form className={style['main']} onSubmit={handleSubmit(onSubmit)} noValidate>
       <div className={style['form-1']}>
-        <label className={style['label']} htmlFor='nadpis'>
-          Nadpis:<span style={{ color: 'red' }}>*</span>
-        </label>
-        <p className={style['error-message']} style={{ color: 'red' }}>
-          {errors.nazev?.message}
-        </p>
-        <br />
-        <input
-          className={style['input']}
-          id='nadpis'
-          type='text'
-          placeholder='Aa'
-          {...register('nazev', {
-            required: {
-              value: true,
-              message: 'Nadpis je povinný',
-            },
-            maxLength: {
-              value: 60,
-              message: 'maximální povolená delka Nadpisu je 60 znaků',
-            },
-          })}
+        <FormInput
+          label='Nadpis:'
+          id='nazev'
+          register={register}
+          errors={errors.nazev}
+          validation={{
+            required: 'Nadpis je povinný',
+            maxLength: { value: 60, message: 'maximální povolená delka Nadpisu je 60 znaků' },
+          }}
         />
-        <br />
-        <label className={style['label']} htmlFor='popis'>
-          Popis:<span style={{ color: 'red' }}>*</span>
-        </label>
-        <p className={style['error-message']} style={{ color: 'red' }}>
-          {errors.popis?.message}
-        </p>
-        <br />
-        <textarea
-          className={style['textarea']}
+        <FormInput
+          label='Popis:'
           id='popis'
-          placeholder='Aa'
-          {...register('popis', {
-            required: {
-              value: true,
-              message: 'Popis je povinný',
-            },
-            maxLength: {
-              value: 600,
-              message: 'maximální povolená delka Popisu je 600 znaků',
-            },
-          })}
+          register={register}
+          errors={errors.popis}
+          validation={{
+            required: 'Popis je povinný',
+            maxLength: { value: 600, message: 'maximální povolená delka Popisu je 600 znaků' },
+          }}
+          type='textarea'
+          longestMessage='maximální povolená delka Popisu je 600 znaků'
         />
-        <br />
-
         <label className={style['label']} htmlFor='images'>
           Fotky:<span style={{ color: 'red' }}>*</span>
         </label>
-        <p className={style['error-message']} style={{ color: 'red' }}>
-          {errors.images?.message}
-        </p>
-        <br />
+        <div className={style['container']}>
+          <div className={style['error-message']}>
+            <p>{errors.images?.message}</p>
+          </div>
+          <div className={style['place-holder']}>
+            <p>Vyberte možnost</p>
+          </div>
+        </div>
         <label className={style['button-file']} htmlFor='images'>
           Nahrajte fotky
         </label>
@@ -229,7 +210,6 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
           id='images'
           accept='image/jpg, image/jpeg, image/png, image/heic, image/webp,'
           multiple
-          className={style['input']}
           style={{ display: 'none' }}
           {...register('images', {
             onChange: handleFileSelect,
@@ -248,7 +228,7 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
                 if (img.size) return img;
                 return img.toString();
               });
-              setFiles(newArray as (string | File)[]);
+              dispatch({ type: 'SET_FILES', files: newArray as any });
             }}
             className={style['preview-container']}>
             {files.map((file, index) => (
@@ -256,7 +236,10 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
                 {typeof file == 'string' ?
                   <img src={file} className={style['preview-image']} />
                 : <img src={URL.createObjectURL(file)} alt={file.name} className={style['preview-image']} />}
-                <button type='button' className={style.removeBtn} onClick={() => removePreview(index)}>
+                <button
+                  type='button'
+                  className={style.removeBtn}
+                  onClick={() => dispatch({ type: 'REMOVE_FILE', index })}>
                   X
                 </button>
                 <p>{index + 1}</p>
@@ -269,14 +252,14 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
           Cena:<span style={{ color: 'red' }}>*</span>
         </label>
         {!showAdditionalField && (
-          <p className={style['error-message']} style={{ color: 'red' }}>
-            {errors.cenaSelect?.message}
-          </p>
-        )}
-        {!showAdditionalField && (
-          <>
-            <br />
-          </>
+          <div className={style['container']}>
+            <div className={style['error-message']}>
+              <p>{errors.cenaSelect?.message}</p>
+            </div>
+            <div className={style['place-holder']}>
+              <p>Vyberte možnost</p>
+            </div>
+          </div>
         )}
         <select
           className={style['select']}
@@ -289,14 +272,16 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
           <option value='Za odvoz'>Za odvoz</option>
           <option value='Číslo v Kč'>Číslo v Kč:</option>
         </select>
-        <br />
-
         {showAdditionalField && (
           <>
-            <p className={style['error-message']} style={{ color: 'red' }}>
-              {errors.cenaNum?.message}
-            </p>
-            <br />
+            <div className={style['container']}>
+              <div className={style['error-message']}>
+                <p>{errors.cenaNum?.message}</p>
+              </div>
+              <div className={style['place-holder']}>
+                <p>Vyberte možnost</p>
+              </div>
+            </div>
             <input
               className={style['input']}
               id='cenaNum'
@@ -307,8 +292,8 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
                   message: 'Cena je povinná',
                 },
                 maxLength: {
-                  value: 7,
-                  message: 'maximální povolená delka Ceny je 7 číslic',
+                  value: 8,
+                  message: 'maximální povolená delka Ceny je 8 číslic',
                 },
               })}
             />
@@ -317,161 +302,79 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
       </div>
       <h2>Osobní údaje:</h2>
       <div className={style['form-2']}>
-        <label className={style['label']} htmlFor='prodejce'>
-          Jméno:<span style={{ color: 'red' }}>*</span>
-        </label>
-        <p className={style['error-message']} style={{ color: 'red' }}>
-          {errors.prodejce?.message}
-        </p>
-        <br />
-        <input
-          className={style['input']}
+        <FormInput
+          label='Jmeno:'
           id='prodejce'
-          type='text'
-          placeholder='Aa'
-          {...register('prodejce', {
-            required: {
-              value: true,
-              message: 'Jméno je povinné',
-            },
-            maxLength: {
-              value: 30,
-              message: 'maximální povolená delka Jména je 30 znaků',
-            },
-          })}
+          register={register}
+          errors={errors.prodejce}
+          validation={{
+            required: 'Jméno je povinné',
+            maxLength: { value: 30, message: 'maximální povolená delka jména je 30 znaků' },
+          }}
+          longestMessage='maximální povolená delka jména prodejce je 30 znaků'
         />
-        <br />
-        <label className={style['label']} htmlFor='telefon'>
-          Telefon:<span style={{ color: 'red' }}>*</span>
-        </label>
-        <p className={style['error-message']} style={{ color: 'red' }}>
-          {errors.telefon?.message}
-        </p>
-        <br />
-        <input
-          className={style['input']}
+        <FormInput
+          label='Telefon:'
           id='telefon'
-          type='tel'
-          placeholder='Aa'
-          {...register('telefon', {
-            required: {
-              value: true,
-              message: 'Telefon je povinný',
-            },
-            maxLength: {
-              value: 16,
-              message: 'maximální povolená delka Tel. čísla je 16 znaků',
-            },
-          })}
+          register={register}
+          errors={errors.telefon}
+          validation={{
+            required: 'Telefon je povinný',
+            minLength: { value: 9, message: 'Telefoní číslo musí obsahovat alespoň 9 čísel' },
+            maxLength: { value: 16, message: 'maximální povolená delka telefoního čísla je 16 znaků' },
+            pattern: { value: /^[0-9+\s()-]+$/, message: 'neplatný formát telefoního čísla' },
+          }}
+          longestMessage='maximální povolená delka telefoního čísla je 15 znaků'
         />
-        <br />
-        <label className={style['label']} htmlFor='lokalita'>
-          Lokalita:<span style={{ color: 'red' }}>*</span>
-        </label>
-        <p className={style['error-message']} style={{ color: 'red' }}>
-          {errors.lokalita?.message}
-        </p>
-        <br />
-        <input
-          className={style['input']}
+        <FormInput
+          label='Lokalita:'
           id='lokalita'
-          type='text'
-          placeholder='Aa'
-          {...register('lokalita', {
-            required: {
-              value: true,
-              message: 'Lokalita je povinná',
-            },
-            maxLength: {
-              value: 40,
-              message: 'maximální povolená delka Lokality je 40 znaků',
-            },
-          })}
+          register={register}
+          errors={errors.lokalita}
+          validation={{
+            required: 'Lokalita je povinná',
+            maxLength: { value: 40, message: 'maximální povolená delka lokality je 40 znaků' },
+          }}
+          longestMessage='maximální povolená delka lokality je 60 znaků'
         />
-        <br />
-        <label className={style['label']} htmlFor='psc'>
-          Psč:<span style={{ color: 'red' }}>*</span>
-        </label>
-        <p className={style['error-message']} style={{ color: 'red' }}>
-          {errors.psc?.message}
-        </p>
-        <br />
-        <input
-          className={style['input']}
+        <FormInput
+          label='PSČ:'
           id='psc'
-          type='number'
-          placeholder='Aa'
-          {...register('psc', {
-            required: {
-              value: true,
-              message: 'Psč je povinné',
-            },
-            maxLength: {
-              value: 10,
-              message: 'maximální povolená delka Psč je 10 číslic',
-            },
-          })}
+          register={register}
+          errors={errors.psc}
+          validation={{
+            required: 'PSČ je povinné',
+            minLength: { value: 5, message: 'PSČ musí obsahovat alespoň 5 čísel' },
+            maxLength: { value: 6, message: 'maximální povolená delka PSČ je 6 znaků' },
+            pattern: { value: /^[0-9]+$/, message: 'neplatný formát PSČ' },
+          }}
+          longestMessage='maximální povolená delka PSČ je 6 znaků'
         />
-        <br />
-        <label className={style['label']} htmlFor='email'>
-          E-mail:<span style={{ color: 'red' }}>*</span>
-        </label>
-        <p className={style['error-message']} style={{ color: 'red' }}>
-          {errors.email?.message}
-        </p>
-        <br />
-        <input
-          className={style['input']}
+        <FormInput
+          label='E-mail:'
           id='email'
-          type='email'
-          placeholder='Aa'
-          {...register('email', {
-            pattern: {
-              value: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/,
-              message: 'Špatný formát E-mailu',
-            },
-            required: {
-              value: true,
-              message: 'E-mail je povinný',
-            },
-            maxLength: {
-              value: 50,
-              message: 'maximální povolená delka E-mailu je 50 znaků',
-            },
-          })}
+          register={register}
+          errors={errors.email}
+          validation={{
+            required: 'E-mail je povinný',
+            maxLength: { value: 50, message: 'maximální povolená delka e-mailu je 50 znaků' },
+            pattern: { value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, message: 'neplatný formát e-mailu' },
+          }}
+          longestMessage='maximální povolená delka e-mailu je 50 znaků'
         />
-        <br />
         <label className={style['label']} htmlFor='heslo'>
           Heslo:<span style={{ color: 'red' }}>*</span>
         </label>
-
-        {windowWidth < 620 ?
-          errors.heslo?.message !==
-            'Heslo musí obsahovat alespoň jedno malé písmeno, jedno velké písmeno, jedno číslo, jeden speciální znak a musí mít minimálně 8 znaků' && (
-            <p className={style['error-message-password']} style={{ color: 'red' }}>
-              {status == 'špatné heslo' && !errors.heslo?.message ?
-                showStatus ?
-                  status
-                : ''
-              : errors.heslo?.message}
-            </p>
-          )
-        : <p className={style['error-message-password']} style={{ color: 'red' }}>
-            {status == 'špatné heslo' && !errors.heslo?.message ?
-              showStatus ?
-                status
-              : ''
-            : errors.heslo?.message}
-          </p>
-        }
-        <br />
-        {windowWidth > 620 &&
-          errors.heslo?.message ===
-            'Heslo musí obsahovat alespoň jedno malé písmeno, jedno velké písmeno, jedno číslo, jeden speciální znak a musí mít minimálně 8 znaků' && (
-            <br />
-          )}
+        <div className={style['container']}>
+          <div className={style['error-message']}>
+            <p>{showStatus ? status : errors.heslo?.message}</p>
+          </div>
+          <div className={style['place-holder']}>
+            <p>Heslo musí obsahovat alespoň jedno velké a malé písmeno a jedno číslo</p>
+          </div>
+        </div>
         <div className={style['password-container']}>
-          <button type='button' className={style['show-btn']} onClick={() => setShowPassword(!showPassword)}>
+          <button type='button' className={style['show-btn']} onClick={() => dispatch({ type: 'TOGGLE_PASSWORD' })}>
             {showPassword ?
               <BiShow />
             : <BiHide />}
@@ -482,33 +385,16 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
             type={showPassword ? 'text' : 'password'}
             placeholder='Aa'
             {...register('heslo', {
-              required: {
-                value: true,
-                message: 'Heslo je povinné',
-              },
+              required: 'Heslo je povinné',
+              minLength: { value: 8, message: 'heslo musí obsahovat alespoň 8 znaků' },
+              maxLength: { value: 50, message: 'maximální povolená delka hesla je 50 znaků' },
               pattern: {
                 value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                message:
-                  'Heslo musí obsahovat alespoň jedno malé písmeno, jedno velké písmeno, jedno číslo, jeden speciální znak a musí mít minimálně 8 znaků',
-              },
-              maxLength: {
-                value: 50,
-                message: 'maximální povolená delka Hesla je 50 znaků',
+                message: 'Heslo musí obsahovat alespoň jedno velké a malé písmeno a jedno číslo',
               },
             })}
           />
         </div>
-        {windowWidth <= 620 &&
-          errors.heslo?.message ===
-            'Heslo musí obsahovat alespoň jedno malé písmeno, jedno velké písmeno, jedno číslo, jeden speciální znak a musí mít minimálně 8 znaků' && (
-            <p className={style['error-message-password']} style={{ color: 'red', position: 'relative' }}>
-              {status == 'špatné heslo' && !errors.heslo?.message ?
-                showStatus ?
-                  status
-                : ''
-              : errors.heslo?.message}
-            </p>
-          )}
       </div>
       <input className={style['button']} type='submit' />
     </form>

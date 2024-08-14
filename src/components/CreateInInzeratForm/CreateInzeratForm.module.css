@@ -14,11 +14,28 @@
   margin-top: 10px;
 }
 
+.container {
+  position: relative;
+}
+
 .error-message {
   position: absolute;
-  left: 50%;
-  transform: translate(-50%);
-  text-wrap: nowrap;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.error-message p {
+  color: red;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.place-holder {
+  opacity: 0;
 }
 
 .input {
@@ -29,31 +46,12 @@
   background-color: var(--input-bg-color);
   width: 550px;
   color: var(--main-text-color);
-}
-
-.textarea {
-  resize: none;
-  height: 150px;
-  width: 550px;
   max-width: 80vw;
-  padding: 5px 5px;
-  border: 1px solid black;
-  border-radius: 10px;
-  background-color: var(--input-bg-color);
-  color: var(--main-text-color);
 }
 
 .select {
   color: var(--main-text-color);
   background-color: var(--input-bg-color);
-}
-
-.error-message-password {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%);
-  width: 98%;
-  z-index: 1;
 }
 
 .password-container {
@@ -164,20 +162,4 @@
 
 .button-file {
   margin-top: 0;
-}
-
-@media (max-width: 700px) {
-  .input {
-    font-size: medium;
-    padding: 5px 5px;
-    width: 550px;
-    max-width: 80vw;
-  }
-
-  .textarea {
-    height: 150px;
-    width: 550px;
-    max-width: 80vw;
-    padding: 5px 5px;
-  }
 }
