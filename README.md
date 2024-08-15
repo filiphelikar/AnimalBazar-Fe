@@ -1,30 +1,27 @@
-# React + TypeScript + Vite
+# Animal Bazar Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Animal Bazar Frontend](https://www.filiphelikar.cz/img/animal-bazar.png "Animal Bazar Frontend")
 
-Currently, two official plugins are available:
+Animal Bazar Frontend is the client-side of a full-stack web application designed for creating, editing, deleting, and searching animal advertisements. The application is built with Vite and React, providing a fast and responsive user experience.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Project Overview
 
-## Expanding the ESLint configuration
+This frontend project is designed to deliver an intuitive user interface for managing advertisements. Utilizing Vite and React ensures quick page loading and efficient data handling. The project demonstrates my skills in modern web application development, focusing on user-friendliness and performance.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Features
 
-- Configure the top-level `parserOptions` property like this:
+- Create, edit, and delete animal advertisements.
+- Search for advertisements by animal type or browse all available listings.
+- Responsive design for optimal experience across different devices.
+- Utilizes Vite for fast and efficient project building.
+- **Form validation** using `use-form` hook for reliable user input handling.
+- **Sorting** of photos using `sortable.js` during ad creation and editing.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## Related Project
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Check out the [Animal Bazar Backend](https://github.com/filiphelikar/AnimalBazar-Be/) repository for the server-side implementation of this application.
+
+## Getting Started
+
+Run `npm install` to install all dependencies.  
+Run `npm start` to start the project.
