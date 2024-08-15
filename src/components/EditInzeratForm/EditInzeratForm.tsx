@@ -58,8 +58,6 @@ const reducer = (state: State, action: Action): State => {
       return { ...state, showStatus: true };
     case 'TOGGLE_FALSE':
       return { ...state, showStatus: false };
-    case 'REMOVE_FILE':
-      return { ...state, files: state.files.filter((_, i) => i !== action.index) };
     default:
       return state;
   }

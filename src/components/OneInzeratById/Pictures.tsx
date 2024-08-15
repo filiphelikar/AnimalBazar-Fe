@@ -54,10 +54,10 @@ const Pictures = ({ images, nazev }: Props) => {
       </div>
       {images.map((_, index) => {
         return img == index ?
-            <button className={style['button-activ']} onClick={() => setImg(index)}>
+            <button key={index} className={style['button-activ']} onClick={() => setImg(index)}>
               <FaCircle />
             </button>
-          : <button className={style['button']} onClick={() => setImg(index)}>
+          : <button key={index} className={style['button']} onClick={() => setImg(index)}>
               <FaCircle />
             </button>;
       })}

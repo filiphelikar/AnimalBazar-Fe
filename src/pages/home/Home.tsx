@@ -12,7 +12,7 @@ const Home = ({ druhy }: Props) => {
       <div className={style['container']}>
         {druhy.map((druh) => {
           return (
-            <Link to={`/inzeraty/${druh}`}>
+            <Link key={druh} to={`/inzeraty/${druh}`}>
               <p>{druh}</p>
             </Link>
           );
