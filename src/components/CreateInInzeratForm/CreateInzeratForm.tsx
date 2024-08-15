@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import style from './CreateInzeratForm.module.css';
 import { BiHide, BiShow } from 'react-icons/bi';
@@ -51,7 +51,9 @@ const CreateInzeratForm = ({ id }: Props) => {
   const { data, status, postRequest } = usePostRequest<Response>('http://localhost:3000/api/create/inzerat');
   const navigate = useNavigate();
 
-  if (data) navigate(`/inzerat/${data._id}`);
+  useEffect(() => {
+    if (data) navigate(`/inzerat/${data._id}`);
+  }, [data, status]);
 
   const {
     register,

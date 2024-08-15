@@ -74,7 +74,9 @@ const EditInzeratForm = ({ _id, nazev, popis, cena, prodejce, telefon, lokalita,
     cena != 'Za odvoz' && dispatch({ type: 'TOGGLE_ADDITIONAL_FIELD', show: true });
   }, []);
 
-  if (data) navigate(`/inzerat/${data._id}`);
+  useEffect(() => {
+    if (data) navigate(`/inzerat/${data._id}`);
+  }, [data, status]);
 
   const {
     register,

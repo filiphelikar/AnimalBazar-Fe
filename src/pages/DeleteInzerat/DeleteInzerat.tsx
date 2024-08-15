@@ -15,7 +15,9 @@ const DeleteInzerat = () => {
   const [showStatus, setShowStatus] = useState(false);
   const navigate = useNavigate();
 
-  if (dataDelete) navigate(`/inzeraty/${dataDelete.druh}`);
+  useEffect(() => {
+    if (dataDelete) navigate(`/inzeraty/${dataDelete.druh}`);
+  }, [dataDelete, status]);
 
   const form = useForm<{ heslo: string }>({
     defaultValues: {
