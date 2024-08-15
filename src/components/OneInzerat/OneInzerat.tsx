@@ -26,7 +26,7 @@ const OneInzerat = ({ nazev, popis, cena, images, lokalita, psc, _id }: Inzerat)
         {windowWidth > 595 && <h2>{nazev}</h2>}
         <img width='200px' src={images[0]} alt={nazev} />
         {windowWidth <= 595 && <h2>{nazev}</h2>}
-        <p className={style['popis']}>{`${popis.slice(0, popisLength)}${popis.length >= popisLength && '...'}`}</p>
+        <p className={style['popis']}>{`${popis.slice(0, popisLength)}${popis.length >= popisLength ? '...' : ''}`}</p>
 
         <div className={style['location']}>
           <span>{lokalita}</span> <br />
